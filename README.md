@@ -2,16 +2,16 @@
 
 Personal portfolio website for Ming Zhao — MInfoTech student at University of Auckland, NZ.
 
-**Live site:** https://kndhjk.github.io
+**Live site:** https://kndhjk.github.io/portfolio
 
-Built with plain HTML + CSS (no framework dependencies), optimized for performance and mobile.
+Built with plain HTML + CSS (no framework dependencies), fully responsive and mobile-first.
 
 ## Development
 
-Just open `index.html` in any browser — no build step required.
+No build step required. Open `index.html` directly in any browser to preview.
 
 ## Deployment
 
-Automatically deployed via **GitHub Pages** from the `master` branch (root).
+Automatically deployed via **GitHub Actions + GitHub Pages** from the `master` branch.
 
-Site URL: https://kndhjk.github.io
+Any push to `master` triggers a new deployment automatically.
