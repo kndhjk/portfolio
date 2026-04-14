@@ -3,278 +3,528 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ming Zhao | MInfoTech Student & Software Developer</title>
+  <title>Ming Zhao | MInfoTech · Software Developer</title>
   <meta name="description" content="MInfoTech Student at University of Auckland | Python, PyQt5, AI/ML, Full-Stack Development | Seeking software engineering opportunities in New Zealand">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <meta name="theme-color" content="#0a0a0f">
+  <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://kndhjk.github.io/portfolio/">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://kndhjk.github.io/portfolio/">
-  <meta property="og:title" content="Ming Zhao | MInfoTech Student & Software Developer">
-  <meta property="og:description" content="Final-year Master's student at University of Auckland passionate about AI-powered apps, full-stack systems, and polished desktop tools. Actively seeking SWE opportunities in NZ.">
-
-  <!-- Twitter Card -->
+  <meta property="og:title" content="Ming Zhao | MInfoTech · Software Developer">
+  <meta property="og:description" content="Final-year Master's student at University of Auckland passionate about AI-powered apps, full-stack systems, and polished desktop tools.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ming Zhao | MInfoTech Student & Software Developer">
-  <meta name="twitter:description" content="Final-year Master's student at University of Auckland passionate about AI-powered apps, full-stack systems, and polished desktop tools. Actively seeking SWE opportunities in NZ.">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #0a0a0f;
-      --surface: rgba(10,10,15,0.85);
-      --surface2: #1a1a26;
-      --border: #2a2a3a;
-      --accent: #6366f1;
-      --accent2: #818cf8;
-      --accent-glow: rgba(99, 102, 241, 0.2);
-      --text: #e2e8f0;
-      --text2: #94a3b8;
-      --text3: #64748b;
-      --green: #22c55e;
-      --green-glow: rgba(34, 197, 94, 0.15);
+      --bg: #000000;
+      --green: #00ff41;
+      --green-dim: #00b82e;
+      --green-glow: rgba(0, 255, 65, 0.4);
+      --green-glow-sm: rgba(0, 255, 65, 0.15);
+      --cyan: #00d4ff;
+      --text: #e0e0e0;
+      --text-dim: #888;
+      --border: rgba(0, 255, 65, 0.25);
+      --card-bg: rgba(0, 8, 0, 0.92);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
     }
 
+    /* MATRIX CANVAS */
     #bg-canvas {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      inset: 0;
       z-index: 0;
-      opacity: 0.65;
+      opacity: 0.92;
     }
 
-    /* Scanline overlay */
-    #bg-canvas::after {
+    /* SCANLINES OVERLAY */
+    body::before {
       content: '';
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: repeating-linear-gradient(
         0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.03) 2px,
-        rgba(0,0,0,0.03) 4px
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.06) 3px,
+        rgba(0, 0, 0, 0.06) 4px
       );
       pointer-events: none;
       z-index: 1;
     }
 
-    a { color: var(--accent2); text-decoration: none; transition: color 0.2s; }
-    a:hover { color: #fff; }
+    /* GLOW TEXT UTILITY */
+    .glow-text {
+      color: var(--green);
+      text-shadow: 0 0 10px var(--green-glow), 0 0 20px var(--green-glow-sm);
+    }
 
     /* NAV */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(10,10,15,0.75);
-      backdrop-filter: blur(20px);
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.9);
       border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
       padding: 0 2rem;
     }
     nav .inner {
-      max-width: 960px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 56px;
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
     }
-    nav .logo { font-weight: 700; font-size: 1rem; color: #fff; }
-    nav .logo span { color: var(--green); text-shadow: 0 0 10px rgba(0,255,80,0.5); }
-    nav .links { display: flex; gap: 1.5rem; }
-    nav .links a { color: var(--text2); font-size: 0.875rem; font-weight: 500; }
-    nav .links a:hover { color: var(--green); }
+    nav .logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: var(--green);
+      text-shadow: 0 0 8px var(--green-glow);
+    }
+    nav .logo span { color: #fff; }
+    nav .links { display: flex; gap: 1.75rem; }
+    nav .links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    nav .links a:hover {
+      color: var(--green);
+      text-shadow: 0 0 8px var(--green-glow);
+    }
     nav .status {
-      display: flex; align-items: center; gap: 0.4rem;
-      font-size: 0.75rem; color: var(--green);
-      background: var(--green-glow);
-      border: 1px solid rgba(34,197,94,0.3);
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--green);
+      border: 1px solid var(--green);
+      padding: 0.2rem 0.7rem;
+      border-radius: 2px;
+      letter-spacing: 0.1em;
+      animation: blink-border 2s infinite;
     }
-    nav .status::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 6px var(--green); }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    @keyframes blink-border {
+      0%, 100% { box-shadow: 0 0 4px var(--green-glow); }
+      50% { box-shadow: 0 0 12px var(--green-glow); }
+    }
 
     /* SECTIONS */
-    section { padding: 5rem 2rem; position: relative; z-index: 2; }
-    .section-inner { max-width: 960px; margin: 0 auto; }
-    .section-label {
-      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--green);
-      margin-bottom: 0.5rem;
-      text-shadow: 0 0 8px rgba(0,255,80,0.4);
+    section {
+      position: relative;
+      z-index: 2;
+      padding: 6rem 2rem;
     }
-    .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 2.5rem; color: #fff; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--green);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
+    }
+    .section-label::before {
+      content: '// ';
+      opacity: 0.5;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* TERMINAL BLOCKQUOTE STYLE DIVIDER */
+    .term-divider {
+      border-left: 2px solid var(--green);
+      padding-left: 1rem;
+      margin: 0.5rem 0 2rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--green-dim);
+      opacity: 0.7;
+    }
 
     /* HERO */
     .hero {
       min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 6rem 2rem 4rem;
-      position: relative;
+      padding: 8rem 2rem 6rem;
     }
-    .hero::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,255,80,0.04) 0%, rgba(10,10,15,0.5) 60%);
-      pointer-events: none;
+    .hero .content { max-width: 800px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--green);
+      border: 1px solid var(--border);
+      padding: 0.35rem 1rem;
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      letter-spacing: 0.1em;
+      background: rgba(0, 20, 0, 0.6);
     }
-    .hero .content { position: relative; z-index: 1; max-width: 720px; }
-    .hero .badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--surface); border: 1px solid var(--border);
-      padding: 0.4rem 1rem; border-radius: 999px;
-      font-size: 0.8rem; color: var(--text2); margin-bottom: 1.5rem;
-      backdrop-filter: blur(12px);
-    }
-    .hero .badge .flag { font-size: 1rem; }
+    .hero-badge .flag { font-size: 1rem; }
+
     .hero h1 {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 800;
-      background: linear-gradient(135deg, #fff 0%, #22c55e 50%, #94a3b8 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      line-height: 1.1; margin-bottom: 0.5rem;
-      text-shadow: none;
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 40px rgba(0, 255, 65, 0.3);
     }
-    .hero .title {
-      font-size: clamp(1rem, 3vw, 1.4rem);
-      color: var(--green); font-weight: 500; margin-bottom: 1.5rem;
-      text-shadow: 0 0 12px rgba(0,255,80,0.4);
+    .hero h1 .accent {
+      color: var(--green);
+      text-shadow: 0 0 20px var(--green-glow), 0 0 60px var(--green-glow-sm);
     }
+
+    .hero-sub {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      color: var(--green);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.15em;
+      opacity: 0.9;
+    }
+
     .hero p {
-      font-size: 1.05rem; color: var(--text2);
-      max-width: 560px; margin: 0 auto 2.5rem;
-      line-height: 1.75;
+      font-size: 1rem;
+      color: var(--text-dim);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
     }
-    .hero .ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .hero .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.75rem 1.5rem; border-radius: 8px;
-      font-weight: 600; font-size: 0.9rem;
-      transition: all 0.2s; cursor: pointer;
+
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 2px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      transition: all 0.2s;
+      cursor: pointer;
     }
-    .hero .btn.primary {
-      background: var(--green); color: #000;
-      box-shadow: 0 0 30px rgba(0,255,80,0.3);
+    .btn.primary {
+      background: var(--green);
+      color: #000;
+      border: 1px solid var(--green);
+      box-shadow: 0 0 20px var(--green-glow), inset 0 0 20px rgba(255,255,255,0.1);
     }
-    .hero .btn.primary:hover { background: #4ade80; transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,255,80,0.5); }
-    .hero .btn.secondary {
-      background: var(--surface); color: var(--text);
-      border: 1px solid var(--border); backdrop-filter: blur(12px);
+    .btn.primary:hover {
+      background: #33ff66;
+      box-shadow: 0 0 40px var(--green-glow), inset 0 0 20px rgba(255,255,255,0.2);
+      transform: translateY(-2px);
     }
-    .hero .btn.secondary:hover { border-color: var(--green); color: var(--green); transform: translateY(-1px); }
+    .btn.secondary {
+      background: transparent;
+      color: var(--green);
+      border: 1px solid var(--border);
+    }
+    .btn.secondary:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 12px var(--green-glow-sm);
+      transform: translateY(-1px);
+    }
+
+    /* SECTION BG */
+    .section-bg {
+      background: rgba(0, 5, 0, 0.75);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
 
     /* ABOUT */
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-    .about-text p { color: var(--text2); margin-bottom: 1rem; font-size: 0.95rem; }
-    .about-text p strong { color: #fff; }
-    .about-highlights { display: flex; flex-direction: column; gap: 1rem; }
-    .highlight-card {
-      background: rgba(10,10,20,0.95); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1.25rem;
-      transition: all 0.2s;
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
     }
-    .highlight-card:hover { border-color: var(--green); box-shadow: 0 0 20px rgba(0,255,80,0.1); }
-    .highlight-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    .highlight-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
-    .highlight-card p { font-size: 0.8rem; color: var(--text2); margin: 0; }
+    .about-text p {
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      font-size: 0.92rem;
+      line-height: 1.8;
+    }
+    .about-text p strong { color: var(--text); }
+
+    .about-highlights { display: flex; flex-direction: column; gap: 1rem; }
+    .hl-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1.25rem;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .hl-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green-glow);
+    }
+    .hl-card:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 20px var(--green-glow-sm);
+    }
+    .hl-card .icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+    .hl-card h3 {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.05em;
+    }
+    .hl-card p { font-size: 0.8rem; color: var(--text-dim); margin: 0; }
 
     /* SKILLS */
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
     .skill-card {
-      background: rgba(10,10,20,0.95); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.5rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1.4rem;
       transition: all 0.2s;
     }
-    .skill-card:hover { border-color: var(--green); box-shadow: 0 0 16px rgba(0,255,80,0.08); }
-    .skill-card .skill-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
-    .skill-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .skill-tag {
-      background: rgba(26,26,38,0.8); border: 1px solid var(--border);
-      padding: 0.25rem 0.6rem; border-radius: 6px;
-      font-size: 0.75rem; color: var(--text2); font-family: 'JetBrains Mono', monospace;
+    .skill-card:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 16px var(--green-glow-sm);
     }
-    .skill-tag.primary { background: rgba(0,255,80,0.1); border-color: rgba(0,255,80,0.3); color: var(--green); }
+    .skill-card .skill-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
+    .skill-card h3 {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--green);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag {
+      background: rgba(0, 255, 65, 0.06);
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.03em;
+    }
+    .skill-tag.hl {
+      background: rgba(0, 255, 65, 0.12);
+      border-color: rgba(0, 255, 65, 0.5);
+      color: var(--green);
+    }
 
     /* PROJECTS */
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-    .project-card {
-      background: rgba(10,10,20,0.95); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.5rem;
-      transition: all 0.2s; display: flex; flex-direction: column;
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
     }
-    .project-card:hover { border-color: var(--green); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(0,255,80,0.1); }
-    .project-top { display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem; }
-    .project-icon { font-size: 1.5rem; }
-    .project-links { display: flex; gap: 0.75rem; }
-    .project-links a { color: var(--text3); font-size: 0.85rem; }
-    .project-links a:hover { color: var(--green); }
-    .project-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .project-card p { font-size: 0.82rem; color: var(--text2); flex: 1; margin-bottom: 1rem; line-height: 1.6; }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; }
-    .project-tag {
-      background: rgba(26,26,38,0.8); border: 1px solid var(--border);
-      padding: 0.2rem 0.5rem; border-radius: 4px;
-      font-size: 0.7rem; color: var(--text3); font-family: 'JetBrains Mono', monospace;
+    .proj-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .proj-card:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 24px var(--green-glow-sm), 0 8px 32px rgba(0,0,0,0.5);
+      transform: translateY(-3px);
+    }
+    .proj-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .proj-icon { font-size: 1.4rem; }
+    .proj-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+    .proj-links a:hover { color: var(--green); }
+    .proj-card h3 {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+    }
+    .proj-card p {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      flex: 1;
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; }
+    .proj-tag {
+      background: rgba(0, 255, 65, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.15);
+      padding: 0.15rem 0.4rem;
+      border-radius: 2px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-dim);
     }
 
     /* EDUCATION */
     .edu-card {
-      background: rgba(10,10,20,0.95); border: 1px solid var(--border);
-      border-radius: 12px; padding: 2rem;
-      display: flex; gap: 1.5rem; align-items: start;
-      margin-bottom: 1.5rem;
-    }
-    .edu-icon { font-size: 2.5rem; }
-    .edu-info h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
-    .edu-info .school { color: var(--green); font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; }
-    .edu-info p { font-size: 0.85rem; color: var(--text2); margin-bottom: 0.75rem; }
-    .edu-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .edu-tag { background: rgba(0,255,80,0.1); border: 1px solid rgba(0,255,80,0.3); color: var(--green); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
-
-    /* JOB-SEEKING */
-    .job-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-    .job-card {
-      background: rgba(10,10,20,0.95); border: 1px solid rgba(34,197,94,0.3);
-      border-radius: 10px; padding: 1.25rem;
-    }
-    .job-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--green); }
-    .job-card p { font-size: 0.8rem; color: var(--text2); }
-
-    /* CONTACT */
-    .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
-    .contact-card {
-      background: rgba(10,10,20,0.95); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1.25rem; text-align: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1.75rem;
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.25rem;
       transition: all 0.2s;
     }
-    .contact-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 0 16px rgba(0,255,80,0.1); }
-    .contact-card .icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
-    .contact-card h3 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem; }
-    .contact-card p { font-size: 0.78rem; color: var(--text2); }
-    .contact-card a { color: var(--green); }
+    .edu-card:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 16px var(--green-glow-sm);
+    }
+    .edu-icon { font-size: 2.2rem; flex-shrink: 0; }
+    .edu-info h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    .edu-info .school {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+    .edu-info p { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.75rem; }
+    .edu-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .edu-tag {
+      background: rgba(0, 255, 65, 0.08);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      color: var(--green);
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* JOB */
+    .job-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .job-card {
+      background: rgba(0, 20, 0, 0.8);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      border-radius: 2px;
+      padding: 1.25rem;
+    }
+    .job-card h3 {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--green);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.05em;
+    }
+    .job-card p { font-size: 0.8rem; color: var(--text-dim); }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .contact-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1.25rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .contact-card:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 16px var(--green-glow-sm);
+      transform: translateY(-2px);
+    }
+    .contact-card .icon { font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .contact-card h3 {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: #fff;
+      margin-bottom: 0.25rem;
+      letter-spacing: 0.05em;
+    }
+    .contact-card p, .contact-card a {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+    .contact-card a:hover { color: var(--green); }
 
     /* FOOTER */
     footer {
-      text-align: center; padding: 2rem;
+      text-align: center;
+      padding: 2.5rem 2rem;
       border-top: 1px solid var(--border);
-      color: var(--text3); font-size: 0.8rem;
-      position: relative; z-index: 2;
+      position: relative;
+      z-index: 2;
     }
-    footer p { margin-top: 0.5rem; }
+    footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      margin-top: 0.4rem;
+    }
 
     /* RESPONSIVE */
     @media (max-width: 640px) {
@@ -282,22 +532,16 @@
       .about-grid { grid-template-columns: 1fr; }
       .edu-card { flex-direction: column; }
     }
-
-    /* SECTION BACKGROUNDS — opaque enough for readability */
-    #skills, #education, #contact { background: rgba(10,10,18,0.88); }
-    #job-search { background: rgba(10,10,18,0.75); }
-    #about, #projects { background: rgba(10,10,18,0.7); }
   </style>
 </head>
 <body>
 
-<!-- THREE.JS BACKGROUND -->
 <canvas id="bg-canvas"></canvas>
 
 <!-- NAV -->
 <nav>
   <div class="inner">
-    <div class="logo">kndhjk<span>.dev</span></div>
+    <div class="logo">M<span>.</span>ZHAO</div>
     <div class="links">
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
@@ -306,27 +550,27 @@
       <a href="#job-search">Jobs</a>
       <a href="#contact">Contact</a>
     </div>
-    <div class="status">Open to Work — NZ</div>
+    <div class="status">OPEN TO WORK</div>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="content">
-    <div class="badge">
+    <div class="hero-badge">
       <span class="flag">🇳🇿</span>
-      Based in Auckland, New Zealand
+      AUCKLAND, NEW ZEALAND
     </div>
-    <h1>Ming Zhao</h1>
-    <p class="title">MInfoTech Student · Software Developer · AI/ML Enthusiast</p>
+    <h1>MING <span class="accent">ZHAO</span></h1>
+    <div class="hero-sub">MINFOTECH STUDENT · SOFTWARE DEVELOPER · AI/ML</div>
     <p>
-      Final-year Master's student at the University of Auckland, passionate about building
+      Final-year Master's student at the University of Auckland, building
       AI-powered applications, full-stack web systems, and polished desktop tools.
-      Actively seeking software engineering opportunities in New Zealand's tech industry.
+      Actively seeking software engineering opportunities in New Zealand.
     </p>
-    <div class="ctas">
-      <a href="#projects" class="btn primary">View My Work →</a>
-      <a href="https://app.previewme.com/p/ur7lf6" class="btn secondary">Watch My Video ↗</a>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn primary">VIEW PROJECTS →</a>
+      <a href="https://app.previewme.com/p/ur7lf6" class="btn secondary">WATCH VIDEO ↗</a>
     </div>
   </div>
 </section>
@@ -334,43 +578,43 @@
 <!-- ABOUT -->
 <section id="about">
   <div class="section-inner">
-    <div class="section-label">About Me</div>
-    <h2 class="section-title">Who I Am</h2>
+    <div class="section-label">01 — About</div>
+    <h2 class="section-title">WHO I AM</h2>
+    <div class="term-divider">SYSTEM: profile loaded — author: Ming Zhao — clearance: public</div>
     <div class="about-grid">
       <div class="about-text">
         <p>
-          I'm a <strong>Master of Information Technology student</strong> at the University of Auckland
-          (graduating 2026), with a strong background in <strong>Python, PyQt5, and full-stack JavaScript</strong>.
-          My undergraduate graduation project — an <strong>AI-powered intelligent education platform</strong>
-          — combined face recognition, GPT chat, AI-generated homework, and grade analytics into a
+          <strong>Master of Information Technology student</strong> at the University of Auckland
+          (graduating 2026), specializing in <strong>Python, PyQt5, and full-stack JavaScript</strong>.
+          Undergrad graduation project: an AI-powered intelligent education platform combining
+          face recognition, GPT chat, AI-generated homework, and grade analytics into a
           production-ready desktop application.
         </p>
         <p>
-          Beyond coursework, I've built a <strong>multiplayer browser roguelike</strong> with real-time
-          Socket.IO sync, reproduced an ML pipeline for <strong>ETA prediction on Beijing taxi data</strong>,
-          and maintain a growing collection of open-source tools and skills for AI assistant workflows.
+          Built a <strong>multiplayer browser roguelike</strong> with real-time Socket.IO sync,
+          reproduced an ML pipeline for <strong>ETA prediction on Beijing taxi data</strong>,
+          and maintain a growing collection of open-source AI assistant tools and skills.
         </p>
         <p>
-          I'm particularly interested in <strong>AI application engineering</strong>,
-          <strong>full-stack development</strong>, and <strong>intelligent systems</strong> that solve
-          real problems. In the NZ context, I'm actively exploring the local tech ecosystem
-          and building toward a career here.
+          Particularly interested in <strong>AI application engineering</strong>,
+          <strong>full-stack development</strong>, and <strong>intelligent systems</strong>.
+          Actively exploring the NZ tech ecosystem.
         </p>
       </div>
       <div class="about-highlights">
-        <div class="highlight-card">
+        <div class="hl-card">
           <div class="icon">🤖</div>
-          <h3>AI + Desktop App Engineering</h3>
-          <p>Built a full PyQt5 education platform with GPT-3.5 API, Baidu ASR voice input, and face recognition — from scratch.</p>
+          <h3>AI + DESKTOP ENGINEERING</h3>
+          <p>Full PyQt5 education platform with GPT-3.5 API, Baidu ASR voice input, and face recognition — from scratch.</p>
         </div>
-        <div class="highlight-card">
+        <div class="hl-card">
           <div class="icon">🎮</div>
-          <h3>Multiplayer Game Dev</h3>
-          <p>Architected a real-time co-op roguelike with Vue 3, Phaser, Node.js, and Socket.IO — from concept to playable prototype.</p>
+          <h3>MULTIPLAYER GAME DEV</h3>
+          <p>Real-time co-op roguelike with Vue 3, Phaser, Node.js, and Socket.IO — from concept to playable prototype.</p>
         </div>
-        <div class="highlight-card">
+        <div class="hl-card">
           <div class="icon">📊</div>
-          <h3>ML Pipeline Reproduction</h3>
+          <h3>ML PIPELINE</h3>
           <p>End-to-end Wide & Deep learning pipeline on Beijing T-Drive dataset, validated on RTX 4070 GPU.</p>
         </div>
       </div>
@@ -379,17 +623,17 @@
 </section>
 
 <!-- SKILLS -->
-<section id="skills">
+<section id="skills" class="section-bg">
   <div class="section-inner">
-    <div class="section-label">Technical Skills</div>
-    <h2 class="section-title">What I Work With</h2>
+    <div class="section-label">02 — Skills</div>
+    <h2 class="section-title">TECH STACK</h2>
     <div class="skills-grid">
       <div class="skill-card">
         <div class="skill-icon">🐍</div>
-        <h3>Languages</h3>
+        <h3>LANGUAGES</h3>
         <div class="skill-tags">
-          <span class="skill-tag primary">Python</span>
-          <span class="skill-tag primary">JavaScript</span>
+          <span class="skill-tag hl">Python</span>
+          <span class="skill-tag hl">JavaScript</span>
           <span class="skill-tag">Java</span>
           <span class="skill-tag">Kotlin</span>
           <span class="skill-tag">PHP</span>
@@ -399,10 +643,10 @@
       </div>
       <div class="skill-card">
         <div class="skill-icon">🖥️</div>
-        <h3>Frameworks & UI</h3>
+        <h3>FRAMEWORKS & UI</h3>
         <div class="skill-tags">
-          <span class="skill-tag primary">PyQt5</span>
-          <span class="skill-tag primary">Vue 3</span>
+          <span class="skill-tag hl">PyQt5</span>
+          <span class="skill-tag hl">Vue 3</span>
           <span class="skill-tag">Vite</span>
           <span class="skill-tag">Phaser</span>
           <span class="skill-tag">Express</span>
@@ -412,27 +656,26 @@
       </div>
       <div class="skill-card">
         <div class="skill-icon">🤖</div>
-        <h3>AI & Machine Learning</h3>
+        <h3>AI & MACHINE LEARNING</h3>
         <div class="skill-tags">
-          <span class="skill-tag primary">OpenAI API</span>
-          <span class="skill-tag primary">GPT-3.5 / GPT-4</span>
+          <span class="skill-tag hl">OpenAI API</span>
+          <span class="skill-tag hl">GPT-3.5 / GPT-4</span>
           <span class="skill-tag">GPT4All / ChatGLM</span>
           <span class="skill-tag">face_recognition</span>
-          <span class="skill-tag">Matplotlib</span>
+          <span class="skill-tag">PyTorch</span>
           <span class="skill-tag">Wide & Deep</span>
           <span class="skill-tag">OSRM</span>
         </div>
       </div>
       <div class="skill-card">
         <div class="skill-icon">🛠️</div>
-        <h3>Infrastructure & Tools</h3>
+        <h3>INFRASTRUCTURE & TOOLS</h3>
         <div class="skill-tags">
-          <span class="skill-tag primary">Git / GitHub</span>
-          <span class="skill-tag primary">Docker</span>
+          <span class="skill-tag hl">Git / GitHub</span>
+          <span class="skill-tag hl">Docker</span>
           <span class="skill-tag">MySQL</span>
           <span class="skill-tag">Home Assistant</span>
           <span class="skill-tag">PyInstaller</span>
-          <span class="skill-tag">Baidu AipSpeech</span>
           <span class="skill-tag">GitHub Actions</span>
         </div>
       </div>
@@ -443,111 +686,111 @@
 <!-- PROJECTS -->
 <section id="projects">
   <div class="section-inner">
-    <div class="section-label">Portfolio</div>
-    <h2 class="section-title">Featured Projects</h2>
+    <div class="section-label">03 — Projects</div>
+    <h2 class="section-title">PORTFOLIO</h2>
     <div class="projects-grid">
 
-      <div class="project-card">
-        <div class="project-top">
-          <div class="project-icon">🎓</div>
-          <div class="project-links">
-            <a href="https://github.com/kndhjk/intelligent-education-system" title="View source">↗ Code</a>
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-icon">🎓</div>
+          <div class="proj-links">
+            <a href="https://github.com/kndhjk/intelligent-education-system" target="_blank">↗ CODE</a>
           </div>
         </div>
         <h3>Intelligent Education System</h3>
-        <p>PyQt5 desktop platform with face recognition login, GPT-3.5 teaching assistant, AI homework generation & auto-grading, voice input, and grade analytics. Undergrad graduation project (2023/2024).</p>
-        <div class="project-tags">
-          <span class="project-tag">Python</span>
-          <span class="project-tag">PyQt5</span>
-          <span class="project-tag">OpenAI API</span>
-          <span class="project-tag">face_recognition</span>
-          <span class="project-tag">MySQL</span>
-          <span class="project-tag">Baidu ASR</span>
+        <p>PyQt5 desktop platform with face recognition login, GPT-3.5 teaching assistant, AI homework generation & auto-grading, voice input, and grade analytics. Undergrad graduation project.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">PyQt5</span>
+          <span class="proj-tag">OpenAI API</span>
+          <span class="proj-tag">face_recognition</span>
+          <span class="proj-tag">MySQL</span>
+          <span class="proj-tag">Baidu ASR</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-top">
-          <div class="project-icon">🎮</div>
-          <div class="project-links">
-            <a href="https://github.com/kndhjk/roguelike-party" title="View source">↗ Code</a>
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-icon">🎮</div>
+          <div class="proj-links">
+            <a href="https://github.com/kndhjk/roguelike-party" target="_blank">↗ CODE</a>
           </div>
         </div>
         <h3>Roguelike Party</h3>
-        <p>Browser-based co-op roguelike with room-code/QR join, real-time multiplayer sync, 8-direction shooting, hit/damage/revive. Vue 3 + Phaser + Node.js + Socket.IO. Real playable prototype.</p>
-        <div class="project-tags">
-          <span class="project-tag">Vue 3</span>
-          <span class="project-tag">Phaser</span>
-          <span class="project-tag">Node.js</span>
-          <span class="project-tag">Socket.IO</span>
-          <span class="project-tag">Vite</span>
+        <p>Browser-based co-op roguelike with room-code/QR join, real-time multiplayer sync, 8-direction shooting, hit/damage/revive. Vue 3 + Phaser + Node.js + Socket.IO.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Vue 3</span>
+          <span class="proj-tag">Phaser</span>
+          <span class="proj-tag">Node.js</span>
+          <span class="proj-tag">Socket.IO</span>
+          <span class="proj-tag">Vite</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-top">
-          <div class="project-icon">🚕</div>
-          <div class="project-links">
-            <a href="https://github.com/kndhjk/codriver_eta" title="View source">↗ Code</a>
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-icon">🚕</div>
+          <div class="proj-links">
+            <a href="https://github.com/kndhjk/codriver_eta" target="_blank">↗ CODE</a>
           </div>
         </div>
         <h3>CoDriver ETA</h3>
-        <p>End-to-end ML pipeline reproducing link-level speed prediction on Beijing T-Drive dataset. Uses OSRM for map-matching and Wide & Deep (WDR) model for ETA estimation. GPU-validated on RTX 4070.</p>
-        <div class="project-tags">
-          <span class="project-tag">Python</span>
-          <span class="project-tag">OSRM</span>
-          <span class="project-tag">PyTorch</span>
-          <span class="project-tag">Docker</span>
-          <span class="project-tag">ML</span>
+        <p>End-to-end ML pipeline reproducing link-level speed prediction on Beijing T-Drive dataset. OSRM for map-matching, Wide & Deep (WDR) model for ETA. GPU-validated on RTX 4070.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">OSRM</span>
+          <span class="proj-tag">PyTorch</span>
+          <span class="proj-tag">Docker</span>
+          <span class="proj-tag">ML</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-top">
-          <div class="project-icon">🐍</div>
-          <div class="project-links">
-            <a href="https://github.com/kndhjk/nokia-worms-android" title="View source">↗ Code</a>
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-icon">🐍</div>
+          <div class="proj-links">
+            <a href="https://github.com/kndhjk/nokia-worms-android" target="_blank">↗ CODE</a>
           </div>
         </div>
         <h3>Nokia Worms — Android</h3>
-        <p>Kotlin Android port of the classic Worms artillery game. Classic turn-based physics gameplay, recreated with a modern mobile touch interface.</p>
-        <div class="project-tags">
-          <span class="project-tag">Kotlin</span>
-          <span class="project-tag">Android</span>
-          <span class="project-tag">Game Dev</span>
+        <p>Kotlin Android port of the classic Worms artillery game. Turn-based physics gameplay, recreated with a modern mobile touch interface.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">Kotlin</span>
+          <span class="proj-tag">Android</span>
+          <span class="proj-tag">Game Dev</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-top">
-          <div class="project-icon">🦜</div>
-          <div class="project-links">
-            <a href="https://github.com/kndhjk/openclaw-skill-local-memory-lite" title="View source">↗ Code</a>
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-icon">🦜</div>
+          <div class="proj-links">
+            <a href="https://github.com/kndhjk/openclaw-skill-local-memory-lite" target="_blank">↗ CODE</a>
           </div>
         </div>
         <h3>OpenClaw Memory Skill</h3>
-        <p>Lightweight SQLite-based local memory skill for OpenClaw AI assistant. No cloud embeddings, no payments — just persistent, private memory that works on a single device.</p>
-        <div class="project-tags">
-          <span class="project-tag">JavaScript</span>
-          <span class="project-tag">SQLite</span>
-          <span class="project-tag">OpenClaw</span>
-          <span class="project-tag">AI Tools</span>
+        <p>Lightweight SQLite-based local memory skill for OpenClaw AI assistant. No cloud embeddings, no payments — persistent, private memory on a single device.</p>
+        <div class="proj-tags">
+          <span class="proj-tag">JavaScript</span>
+          <span class="proj-tag">SQLite</span>
+          <span class="proj-tag">OpenClaw</span>
+          <span class="proj-tag">AI Tools</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-top">
-          <div class="project-icon">₿</div>
-          <div class="project-links">
-            <a href="https://github.com/kndhjk/Bitcoin-prediction" title="View source">↗ Code</a>
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-icon">₿</div>
+          <div class="proj-links">
+            <a href="https://github.com/kndhjk/Bitcoin-prediction" target="_blank">↗ CODE</a>
           </div>
         </div>
         <h3>Bitcoin Data Pipeline</h3>
         <p>Automated daily Bitcoin historical data collection pipeline. Scheduled background script fetches and stores updated price data each day at midnight.</p>
-        <div class="project-tags">
-          <span class="project-tag">Python</span>
-          <span class="project-tag">Data Pipeline</span>
-          <span class="project-tag">Automation</span>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">Data Pipeline</span>
+          <span class="proj-tag">Automation</span>
         </div>
       </div>
 
@@ -556,16 +799,16 @@
 </section>
 
 <!-- EDUCATION -->
-<section id="education">
+<section id="education" class="section-bg">
   <div class="section-inner">
-    <div class="section-label">Education</div>
-    <h2 class="section-title">Academic Background</h2>
+    <div class="section-label">04 — Education</div>
+    <h2 class="section-title">ACADEMICS</h2>
     <div class="edu-card">
       <div class="edu-icon">🎓</div>
       <div class="edu-info">
         <h3>Master of Information Technology (MInfoTech)</h3>
-        <div class="school">University of Auckland, New Zealand</div>
-        <p>2025 – 2026 (expected). Focused on software engineering practice, AI applications, and the New Zealand tech industry. Includes compulsory industry-facing workshops and a semester-long industry internship (COMPSCI 778).</p>
+        <div class="school">UNIVERSITY OF AUCKLAND · NEW ZEALAND</div>
+        <p>2025 – 2026 (expected). Focused on software engineering practice, AI applications, and the NZ tech industry. Includes compulsory industry workshops and semester-long internship (COMPSCI 778).</p>
         <div class="edu-tags">
           <span class="edu-tag">Software Engineering</span>
           <span class="edu-tag">AI Applications</span>
@@ -578,8 +821,8 @@
       <div class="edu-icon">🎓</div>
       <div class="edu-info">
         <h3>Bachelor of Computer Science / Software Engineering</h3>
-        <div class="school">Class of 2024</div>
-        <p>Undergraduate graduation project: AI-powered intelligent education assistance system (PyQt5 + GPT + face recognition + voice input). Awarded strong marks for system integration, AI feature implementation, and practical utility.</p>
+        <div class="school">CLASS OF 2024</div>
+        <p>Undergraduate graduation project: AI-powered intelligent education system (PyQt5 + GPT + face recognition + voice input). Awarded strong marks for system integration, AI feature implementation, and practical utility.</p>
         <div class="edu-tags">
           <span class="edu-tag">PyQt5</span>
           <span class="edu-tag">AI Integration</span>
@@ -594,34 +837,34 @@
 <!-- JOB SEEKING -->
 <section id="job-search">
   <div class="section-inner">
-    <div class="section-label">Looking for Work</div>
-    <h2 class="section-title">Open to Opportunities in NZ</h2>
+    <div class="section-label">05 — Seeking</div>
+    <h2 class="section-title">OPEN TO OPPORTUNITIES</h2>
     <div class="job-cards">
       <div class="job-card">
-        <h3>🎯 Actively Looking For</h3>
-        <p>Software engineering internships, graduate roles, and junior developer positions in Auckland or wider NZ</p>
+        <h3>🎯 LOOKING FOR</h3>
+        <p>Software engineering internships, graduate roles, junior developer positions in Auckland or wider NZ</p>
       </div>
       <div class="job-card">
-        <h3>💼 Open To</h3>
+        <h3>💼 OPEN TO</h3>
         <p>Full-time / Part-time / Contract. Remote, hybrid, or on-site. AI/ML, full-stack, or desktop application roles</p>
       </div>
       <div class="job-card">
-        <h3>📍 Location</h3>
-        <p>Auckland, New Zealand. Currently hold a valid NZ student visa with work rights (post-study pathway)</p>
+        <h3>📍 LOCATION</h3>
+        <p>Auckland, New Zealand. Valid NZ student visa with post-study work rights pathway</p>
       </div>
       <div class="job-card">
-        <h3>⏰ Timing</h3>
-        <p>Available for interviews now. Target start: mid-to-late 2026 (around October, aligned with COMPSCI 778 internship)</p>
+        <h3>⏰ TIMING</h3>
+        <p>Available now. Target start: mid-to-late 2026 (aligned with COMPSCI 778 internship)</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
+<section id="contact" class="section-bg">
   <div class="section-inner">
-    <div class="section-label">Get in Touch</div>
-    <h2 class="section-title">Contact</h2>
+    <div class="section-label">06 — Contact</div>
+    <h2 class="section-title">GET IN TOUCH</h2>
     <div class="contact-grid">
       <div class="contact-card">
         <div class="icon">📧</div>
@@ -636,22 +879,22 @@
       <div class="contact-card">
         <div class="icon">💻</div>
         <h3>GitHub</h3>
-        <p><a href="https://github.com/kndhjk">github.com/kndhjk</a></p>
+        <p><a href="https://github.com/kndhjk" target="_blank">github.com/kndhjk</a></p>
       </div>
       <div class="contact-card">
         <div class="icon">🔗</div>
         <h3>LinkedIn</h3>
-        <p><a href="https://www.linkedin.com/in/ming-zhao-65260233a">Connect on LinkedIn</a></p>
+        <p><a href="https://www.linkedin.com/in/ming-zhao-65260233a" target="_blank">Connect</a></p>
       </div>
       <div class="contact-card">
         <div class="icon">🎬</div>
-        <h3>PreviewMe Video</h3>
-        <p><a href="https://app.previewme.com/p/ur7lf6">Watch My Intro</a></p>
+        <h3>PreviewMe</h3>
+        <p><a href="https://app.previewme.com/p/ur7lf6" target="_blank">Watch Intro</a></p>
       </div>
       <div class="contact-card">
         <div class="icon">🇳🇿</div>
         <h3>Location</h3>
-        <p>Auckland, New Zealand</p>
+        <p>Auckland, NZ</p>
       </div>
     </div>
   </div>
@@ -659,8 +902,8 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>Built with HTML & CSS · Three.js WebGL Background · Hosted on GitHub Pages</p>
-  <p>© 2026 Ming Zhao · All rights reserved</p>
+  <p>BUILT WITH HTML · THREE.JS · HOSTED ON GITHUB PAGES</p>
+  <p>© 2026 MING ZHAO — ALL RIGHTS RESERVED</p>
 </footer>
 
 <!-- THREE.JS MATRIX RAIN -->
@@ -678,139 +921,120 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-// ─── Scene Setup ───────────────────────────────────────────────────────────
+// ── Renderer ──
 const canvas = document.getElementById('bg-canvas');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x0a0a0f);
+renderer.setClearColor(0x000000);
+renderer.toneMapping = THREE.ReinhardToneMapping;
+renderer.toneMappingExposure = 1.2;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 60;
+const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 50;
 
-// ─── Post-processing (Bloom) ────────────────────────────────────────────────
+// ── Post-processing — strong bloom ──
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
 const bloomPass = new UnrealBloomPass(
   new THREE.Vector2(window.innerWidth, window.innerHeight),
-  0.6,   // strength (reduced so text areas stay crisp)
-  0.4,   // radius
-  0.35   // threshold — only bright things glow
+  1.2,   // strength — maxed for max glow
+  0.6,   // radius
+  0.1    // threshold — only very bright pixels glow
 );
 composer.addPass(bloomPass);
 
-// ─── Matrix Rain Columns ───────────────────────────────────────────────────
-const COLS = 80;
-const CHAR_H = 1.4;
-const CHAR_W = 1.0;
-const ROWS = 80;
-const DEPTH = 24;
-
-const CHARS = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
-// Katakana + binary — proper Matrix vibes
-
-// Build character atlas texture (canvas → texture)
-const charW = 64, charH = 80;
-const atlasCanvas = document.createElement('canvas');
-atlasCanvas.width = charW * 16;
-atlasCanvas.height = charH * 2;
-const aCtx = atlasCanvas.getContext('2d');
-aCtx.fillStyle = '#0a0a0f';
-aCtx.fillRect(0, 0, atlasCanvas.width, atlasCanvas.height);
-aCtx.font = `bold ${charH - 8}px 'JetBrains Mono', 'Courier New', monospace`;
+// ── Character atlas (white — bloom will tint it green) ──
+const CHARS = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+const CHAR_W = 64, CHAR_H = 80;
+const atlasCvs = document.createElement('canvas');
+atlasCvs.width = CHAR_W * 16;
+atlasCvs.height = CHAR_H * 2;
+const aCtx = atlasCvs.getContext('2d');
+aCtx.fillStyle = '#000000';
+aCtx.fillRect(0, 0, atlasCvs.width, atlasCvs.height);
+aCtx.font = `bold ${CHAR_H - 10}px 'Courier New', monospace`;
 aCtx.textAlign = 'center';
 
-const half = '0123456789ABCDEF';
 for (let row = 0; row < 2; row++) {
   for (let col = 0; col < 16; col++) {
     const idx = row * 16 + col;
     const ch = CHARS[idx] || '?';
-    // Color gradient: bright head → mid → dark trail
-    const brightness = 1 - (idx / (16 * 2));
-    const r = Math.floor(20 + brightness * 235);
-    const g = Math.floor(brightness * 255);
-    const b = Math.floor(brightness * 120);
-    aCtx.fillStyle = `rgb(${r},${g},${b})`;
-    aCtx.fillText(ch, col * charW + charW / 2, row * charH + charH - 10);
+    // Brightness gradient top (bright) → bottom (dim)
+    const brightness = 0.5 + (1 - idx / 32) * 0.5;
+    const v = Math.floor(brightness * 255);
+    aCtx.fillStyle = `rgb(${v},${v},${v})`;
+    aCtx.fillText(ch, col * CHAR_W + CHAR_W / 2, row * CHAR_H + CHAR_H - 12);
   }
 }
-
-const atlasTex = new THREE.CanvasTexture(atlasCanvas);
+const atlasTex = new THREE.CanvasTexture(atlasCvs);
 atlasTex.magFilter = THREE.NearestFilter;
 atlasTex.minFilter = THREE.NearestFilter;
 
-// Each column: one long plane with multiple char quads
-// Actually: instanced mesh — one PlaneGeometry per char slot, instanced
-const columns = [];
+// ── Rain columns ──
+const COLS = 100;
+const CHAR_W_S = 1.1;
+const CHAR_H_S = 1.5;
+const ROWS_DISPLAY = 90;
+const DEPTH = 30;
 
 class RainColumn {
-  constructor(colIdx) {
-    this.colIdx = colIdx;
-    this.x = (colIdx - COLS / 2) * CHAR_W * 1.1;
-    this.speed = 0.3 + Math.random() * 0.6;
-    this.charCount = 8 + Math.floor(Math.random() * 16);
-    this.offset = Math.random() * 1000;
-    this.alive = true;
+  constructor(i) {
+    this.i = i;
+    this.x = (i - COLS / 2) * CHAR_W_S * 1.05;
+    this.speed = 0.4 + Math.random() * 0.8;
+    this.charCount = 10 + Math.floor(Math.random() * 18);
+    this.offset = Math.random() * 999;
+    this.active = true;
 
-    // Geometry: one quad per character
-    const geo = new THREE.PlaneGeometry(CHAR_W * 0.85, CHAR_H * 0.9);
+    const geo = new THREE.PlaneGeometry(CHAR_W_S * 0.88, CHAR_H_S * 0.88);
+    this.mesh = new THREE.InstancedMesh(geo, [
+      new THREE.MeshBasicMaterial({ map: atlasTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })
+    ], this.charCount);
+    this.mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
 
-    // Assign random char indices for each slot
     this.charIdxs = [];
-    for (let i = 0; i < this.charCount; i++) {
+    for (let j = 0; j < this.charCount; j++) {
       this.charIdxs.push(Math.floor(Math.random() * CHARS.length));
     }
 
-    // InstancedMesh approach
-    this.mesh = new THREE.InstancedMesh(geo, [
-      new THREE.MeshBasicMaterial({ map: atlasTex, transparent: true, depthWrite: false, side: THREE.DoubleSide }),
-    ], this.charCount);
-
-    this.mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-
-    // Spread along Y (top to bottom, negative = up)
     const dummy = new THREE.Object3D();
-    for (let i = 0; i < this.charCount; i++) {
-      dummy.position.set(this.x, -i * CHAR_H, (Math.random() - 0.5) * DEPTH * 0.5);
+    for (let j = 0; j < this.charCount; j++) {
+      dummy.position.set(
+        this.x + (Math.random() - 0.5) * 0.3,
+        -j * CHAR_H_S,
+        (Math.random() - 0.5) * DEPTH
+      );
       dummy.updateMatrix();
-      this.mesh.setMatrixAt(i, dummy.matrix);
+      this.mesh.setMatrixAt(j, dummy.matrix);
     }
     this.mesh.instanceMatrix.needsUpdate = true;
-
     scene.add(this.mesh);
   }
 
   update(time) {
-    const totalLen = this.charCount * CHAR_H;
-    // Slide down: y starts at top, goes down
-    const baseY = ((time * this.speed + this.offset) % (ROWS * CHAR_H)) - ROWS * CHAR_H;
+    const cycleLen = (this.charCount + ROWS_DISPLAY) * CHAR_H_S;
+    let baseY = ((time * this.speed * 12 + this.offset * 5) % cycleLen) - ROWS_DISPLAY * CHAR_H_S;
 
     const dummy = new THREE.Object3D();
-    for (let i = 0; i < this.charCount; i++) {
-      let y = baseY + i * CHAR_H;
-      // Wrap: characters that go off bottom reappear at top
-      if (y > ROWS * CHAR_H) y -= (this.charCount + ROWS) * CHAR_H;
-
+    for (let j = 0; j < this.charCount; j++) {
+      let y = baseY + j * CHAR_H_S;
+      // Skip if way off screen
       dummy.position.set(
-        this.x + Math.sin(time * 0.5 + i * 0.3) * 0.1,
+        this.x + Math.sin(time * 0.6 + j * 0.4) * 0.15,
         y,
         0
       );
       dummy.updateMatrix();
-      this.mesh.setMatrixAt(i, dummy.matrix);
+      this.mesh.setMatrixAt(j, dummy.matrix);
 
-      // Char index shifts over time — characters change
-      if (Math.random() < 0.005) {
-        this.charIdxs[i] = Math.floor(Math.random() * CHARS.length);
+      // Randomly mutate characters
+      if (Math.random() < 0.008) {
+        this.charIdxs[j] = Math.floor(Math.random() * CHARS.length);
       }
-      const ci = this.charIdxs[i];
-      const atlasCol = ci % 16;
-      const atlasRow = Math.floor(ci / 16);
-      this.mesh.setUVAt(i,
-        (atlasCol + 0.5) / 16,
-        (atlasRow + 0.5) / 2
-      );
+      const ci = this.charIdxs[j];
+      this.mesh.setUVAt(j, (ci % 16 + 0.5) / 16, (Math.floor(ci / 16) + 0.5) / 2);
     }
     this.mesh.instanceMatrix.needsUpdate = true;
     if (this.mesh.geometry.attributes.uv) {
@@ -819,66 +1043,74 @@ class RainColumn {
   }
 }
 
-// Build columns
-for (let c = 0; c < COLS; c++) {
-  columns.push(new RainColumn(c));
-}
+const columns = Array.from({ length: COLS }, (_, i) => new RainColumn(i));
 
-// ─── Floating Particles ───────────────────────────────────────────────────
-const PARTICLE_COUNT = 200;
+// ── Particle field ──
+const PART_COUNT = 400;
 const pGeo = new THREE.BufferGeometry();
-const pPositions = new Float32Array(PARTICLE_COUNT * 3);
-const pSpeeds = new Float32Array(PARTICLE_COUNT);
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-  pPositions[i * 3] = (Math.random() - 0.5) * 120;
-  pPositions[i * 3 + 1] = (Math.random() - 0.5) * 80;
-  pPositions[i * 3 + 2] = (Math.random() - 0.5) * 20;
-  pSpeeds[i] = 0.01 + Math.random() * 0.03;
+const pPos = new Float32Array(PART_COUNT * 3);
+const pVel = new Float32Array(PART_COUNT);
+for (let i = 0; i < PART_COUNT; i++) {
+  pPos[i * 3] = (Math.random() - 0.5) * 140;
+  pPos[i * 3 + 1] = (Math.random() - 0.5) * 100;
+  pPos[i * 3 + 2] = (Math.random() - 0.5) * 25;
+  pVel[i] = 0.02 + Math.random() * 0.06;
 }
-pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
 const pMat = new THREE.PointsMaterial({
-  color: 0x00ff80,
-  size: 0.3,
+  color: 0x00ff41,
+  size: 0.25,
   transparent: true,
-  opacity: 0.6,
+  opacity: 0.5,
+  blending: THREE.AdditiveBlending,
   sizeAttenuation: true,
 });
-const particles = new THREE.Points(pGeo, pMat);
-scene.add(particles);
+scene.add(new THREE.Points(pGeo, pMat));
 
-// ─── Mouse Parallax ───────────────────────────────────────────────────────
+// ── Mouse parallax ──
 const mouse = { x: 0, y: 0 };
-window.addEventListener('mousemove', (e) => {
+window.addEventListener('mousemove', e => {
   mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
   mouse.y = (e.clientY / window.innerHeight - 0.5) * 2;
 });
 
-// ─── Animation Loop ────────────────────────────────────────────────────────
+// ── Camera drift ──
+let camTargetX = 0, camTargetY = 0;
+let camX = 0, camY = 0;
+
+// ── Animate ──
 const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
 
-  // Update rain
   for (const col of columns) col.update(t);
 
-  // Float particles
+  // Particles drift up
   const pos = pGeo.attributes.position.array;
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    pos[i * 3 + 1] += pSpeeds[i];
-    if (pos[i * 3 + 1] > 40) pos[i * 3 + 1] = -40;
+  for (let i = 0; i < PART_COUNT; i++) {
+    pos[i * 3 + 1] += pVel[i];
+    if (pos[i * 3 + 1] > 50) {
+      pos[i * 3 + 1] = -50;
+      pos[i * 3] = (Math.random() - 0.5) * 140;
+    }
   }
   pGeo.attributes.position.needsUpdate = true;
 
-  // Camera gentle float + mouse parallax
-  camera.position.x += (mouse.x * 3 - camera.position.x) * 0.02;
-  camera.position.y += (-mouse.y * 2 - camera.position.y) * 0.02;
+  // Camera parallax
+  camTargetX = mouse.x * 4;
+  camTargetY = -mouse.y * 3;
+  camX += (camTargetX - camX) * 0.04;
+  camY += (camTargetY - camY) * 0.04;
+  camera.position.x = camX;
+  camera.position.y = camY;
+  camera.position.z = 50 + Math.sin(t * 0.3) * 1.5;
   camera.lookAt(0, 0, 0);
 
   composer.render();
 }
 
-// ─── Resize ───────────────────────────────────────────────────────────────
+// ── Resize ──
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
