@@ -40,9 +40,11 @@
     }
 
     #bg-canvas {
-      position: fixed;
-      inset: 0;
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
       z-index: 0;
+      pointer-events: none;
     }
 
     nav {
@@ -108,8 +110,10 @@
       display: flex; align-items: center; justify-content: center;
       text-align: center;
       padding: 8rem 2rem 6rem;
+      position: relative;
+      overflow: hidden;
     }
-    .hero .content { max-width: 760px; }
+    .hero .content { max-width: 760px; position: relative; z-index: 1; }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 0.6rem;
       font-family: 'DM Mono', monospace;
@@ -398,13 +402,12 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const canvas = document.getElementById('bg-canvas');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x030712, 1);
+renderer.setClearColor(0x000000, 0);  // transparent — hero bg shows through
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.1;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 1000);  // aspect 1:1, updated on resize
 camera.position.z = 28;
 
 // ── Post-processing ──
@@ -614,13 +617,21 @@ function animate() {
   composer.render();
 }
 
-// ── Resize ──
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  composer.setSize(window.innerWidth, window.innerHeight);
-});
+// ── Resize — canvas matches hero section ──
+function onResize() {
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    const w = hero.clientWidth;
+    const h = hero.clientHeight;
+    renderer.setSize(w, h);
+    composer.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+}
+
+window.addEventListener('resize', onResize);
+onResize();  // initial size
 
 animate();
 </script>
