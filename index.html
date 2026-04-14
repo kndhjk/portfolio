@@ -16,15 +16,15 @@
 
   <style>
     :root {
-      --bg: #030712;
-      --green: #00ff41;
-      --green-dim: #00c032;
-      --green-glow: rgba(0,255,65,0.35);
-      --green-glow-sm: rgba(0,255,65,0.12);
-      --text: #f0f0f0;
-      --text-dim: #8a949e;
-      --border: rgba(0,255,65,0.18);
-      --card-bg: rgba(3,7,18,0.94);
+      --bg: #000000;
+      --text: #ffffff;
+      --text-dim: rgba(255,255,255,0.55);
+      --text-dimmer: rgba(255,255,255,0.35);
+      --accent: #00ff41;
+      --accent-dim: rgba(0,255,65,0.7);
+      --border: rgba(255,255,255,0.08);
+      --card-bg: rgba(10,10,15,0.98);
+      --section-bg: rgba(5,5,10,0.97);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,19 +39,20 @@
       overflow-x: hidden;
     }
 
+    /* CANVAS — subtle hero only */
     #bg-canvas {
       position: absolute;
       top: 0; left: 50%;
       transform: translateX(-50%);
       z-index: 0;
       pointer-events: none;
+      opacity: 0.25;   /* very subtle — text always wins */
     }
 
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(3,7,18,0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(24px);
       border-bottom: 1px solid var(--border);
       padding: 0 2.5rem;
     }
@@ -62,46 +63,40 @@
     }
     nav .logo {
       font-family: 'DM Mono', monospace;
-      font-size: 0.95rem; font-weight: 500;
+      font-size: 0.9rem; font-weight: 500;
       letter-spacing: 0.12em;
-      color: var(--green);
+      color: var(--accent);
     }
-    nav .logo span { color: rgba(255,255,255,0.5); }
+    nav .logo span { color: rgba(255,255,255,0.4); }
     nav .links { display: flex; gap: 2.25rem; }
     nav .links a {
       font-size: 0.82rem; font-weight: 500;
       color: var(--text-dim); letter-spacing: 0.03em;
       transition: color 0.2s;
     }
-    nav .links a:hover { color: var(--green); }
+    nav .links a:hover { color: #fff; }
     nav .status {
       font-family: 'DM Mono', monospace;
       font-size: 0.65rem; letter-spacing: 0.15em;
-      color: var(--green);
-      border: 1px solid rgba(0,255,65,0.4);
+      color: var(--accent);
+      border: 1px solid rgba(0,255,65,0.35);
       padding: 0.28rem 0.8rem; border-radius: 999px;
-      background: rgba(0,255,65,0.05);
     }
 
-    section { position: relative; z-index: 2; padding: 7rem 2rem; }
-    .section-inner { max-width: 1100px; margin: 0 auto; }
+    /* ALL CONTENT: solid high-contrast backgrounds */
+    section { position: relative; z-index: 2; }
+    .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
     .section-label {
       font-family: 'DM Mono', monospace;
-      font-size: 0.7rem; letter-spacing: 0.22em;
-      color: var(--green); text-transform: uppercase;
-      margin-bottom: 0.6rem; opacity: 0.7;
+      font-size: 0.68rem; letter-spacing: 0.22em;
+      color: var(--accent-dim); text-transform: uppercase;
+      margin-bottom: 0.6rem;
     }
     .section-label::before { content: '— '; opacity: 0.5; }
     .section-title {
-      font-size: clamp(1.5rem, 4vw, 2.1rem);
+      font-size: clamp(1.4rem, 4vw, 2rem);
       font-weight: 700; color: #fff;
       margin-bottom: 3rem; letter-spacing: -0.02em;
-    }
-
-    .section-bg {
-      background: rgba(3,7,18,0.65);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
     }
 
     /* HERO */
@@ -113,30 +108,42 @@
       position: relative;
       overflow: hidden;
     }
-    .hero .content { max-width: 760px; position: relative; z-index: 1; }
+    /* Solid dark gradient behind text — canvas is decorative, text is king */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.92) 100%);
+      z-index: 0;
+    }
+    .hero .content {
+      max-width: 760px;
+      position: relative;
+      z-index: 1;
+    }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 0.6rem;
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem; letter-spacing: 0.15em;
-      color: var(--green); opacity: 0.8;
-      border: 1px solid var(--border);
-      padding: 0.35rem 1.1rem; border-radius: 999px;
-      margin-bottom: 2.5rem;
+      font-size: 0.7rem; letter-spacing: 0.15em;
+      color: var(--accent-dim);
+      border: 1px solid rgba(0,255,65,0.25);
+      padding: 0.35rem 1rem; border-radius: 999px;
+      margin-bottom: 2rem;
     }
     .hero h1 {
-      font-size: clamp(3.2rem, 11vw, 7rem);
-      font-weight: 700; letter-spacing: -0.03em; line-height: 1;
+      font-size: clamp(3.5rem, 12vw, 8rem);
+      font-weight: 700; letter-spacing: -0.04em; line-height: 1;
       margin-bottom: 0.6rem; color: #fff;
     }
-    .hero h1 .accent { color: var(--green); }
+    .hero h1 .accent { color: var(--accent); }
     .hero-sub {
       font-family: 'DM Mono', monospace;
-      font-size: clamp(0.75rem, 2vw, 0.95rem);
-      color: var(--text-dim); letter-spacing: 0.18em;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      color: rgba(255,255,255,0.6); letter-spacing: 0.2em;
       margin-bottom: 2rem;
     }
     .hero p {
-      font-size: 1.05rem; color: var(--text-dim);
+      font-size: 1.05rem; color: rgba(255,255,255,0.5);
       max-width: 520px; margin: 0 auto 3rem;
       line-height: 1.85;
     }
@@ -145,34 +152,42 @@
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.8rem 1.8rem; border-radius: 6px;
       font-family: 'DM Mono', monospace;
-      font-size: 0.8rem; font-weight: 500;
+      font-size: 0.78rem; font-weight: 500;
       letter-spacing: 0.08em; transition: all 0.2s;
     }
     .btn.primary {
-      background: var(--green); color: #000;
-      border: 1px solid var(--green);
+      background: var(--accent); color: #000;
+      border: 1px solid var(--accent);
     }
-    .btn.primary:hover { background: #22ff55; transform: translateY(-1px); box-shadow: 0 8px 30px var(--green-glow); }
+    .btn.primary:hover { background: #22ff55; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,255,65,0.3); }
     .btn.secondary {
-      background: transparent; color: var(--text);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06); color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
     }
-    .btn.secondary:hover { border-color: var(--green); color: var(--green); transform: translateY(-1px); }
+    .btn.secondary:hover { border-color: rgba(255,255,255,0.35); transform: translateY(-1px); }
+
+    /* SECTION BACKGROUNDS — solid dark, not transparent */
+    .section-bg {
+      background: var(--section-bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 6rem 0;
+    }
 
     /* ABOUT */
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-    .about-text p { color: var(--text-dim); margin-bottom: 1.1rem; font-size: 0.95rem; line-height: 1.85; }
-    .about-text p strong { color: var(--text); }
+    .about-text p { color: rgba(255,255,255,0.5); margin-bottom: 1.1rem; font-size: 0.95rem; line-height: 1.85; }
+    .about-text p strong { color: #fff; }
     .about-highlights { display: flex; flex-direction: column; gap: 1rem; }
     .hl-card {
       background: var(--card-bg); border: 1px solid var(--border);
       border-radius: 10px; padding: 1.3rem;
       transition: all 0.25s;
     }
-    .hl-card:hover { border-color: rgba(0,255,65,0.35); box-shadow: 0 4px 24px rgba(0,0,0,0.4); }
-    .hl-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    .hl-card h3 { font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
-    .hl-card p { font-size: 0.8rem; color: var(--text-dim); margin: 0; }
+    .hl-card:hover { border-color: rgba(0,255,65,0.25); }
+    .hl-card .icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .hl-card h3 { font-size: 0.88rem; font-weight: 600; color: #fff; margin-bottom: 0.3rem; }
+    .hl-card p { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin: 0; }
 
     /* SKILLS */
     .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.2rem; }
@@ -181,17 +196,17 @@
       border-radius: 10px; padding: 1.4rem;
       transition: all 0.25s;
     }
-    .skill-card:hover { border-color: rgba(0,255,65,0.35); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .skill-card:hover { border-color: rgba(0,255,65,0.25); }
     .skill-card .skill-icon { font-size: 1.4rem; margin-bottom: 0.7rem; }
-    .skill-card h3 { font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 0.8rem; }
+    .skill-card h3 { font-size: 0.82rem; font-weight: 600; color: #fff; margin-bottom: 0.8rem; }
     .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .skill-tag {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
       padding: 0.22rem 0.55rem; border-radius: 4px;
       font-family: 'DM Mono', monospace;
-      font-size: 0.67rem; color: var(--text-dim);
+      font-size: 0.67rem; color: rgba(255,255,255,0.5);
     }
-    .skill-tag.hl { background: rgba(0,255,65,0.08); border-color: rgba(0,255,65,0.3); color: var(--green); }
+    .skill-tag.hl { background: rgba(0,255,65,0.1); border-color: rgba(0,255,65,0.25); color: var(--accent); }
 
     /* PROJECTS */
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; }
@@ -200,19 +215,19 @@
       border-radius: 10px; padding: 1.5rem;
       transition: all 0.25s; display: flex; flex-direction: column;
     }
-    .proj-card:hover { border-color: rgba(0,255,65,0.35); box-shadow: 0 12px 40px rgba(0,0,0,0.4); transform: translateY(-3px); }
+    .proj-card:hover { border-color: rgba(0,255,65,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
     .proj-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
-    .proj-icon { font-size: 1.5rem; }
-    .proj-links a { font-size: 0.78rem; color: var(--text-dim); }
-    .proj-links a:hover { color: var(--green); }
-    .proj-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
-    .proj-card p { font-size: 0.82rem; color: var(--text-dim); flex: 1; margin-bottom: 1rem; line-height: 1.7; }
+    .proj-icon { font-size: 1.4rem; }
+    .proj-links a { font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+    .proj-links a:hover { color: var(--accent); }
+    .proj-card h3 { font-size: 0.95rem; font-weight: 600; color: #fff; margin-bottom: 0.5rem; }
+    .proj-card p { font-size: 0.82rem; color: rgba(255,255,255,0.45); flex: 1; margin-bottom: 1rem; line-height: 1.7; }
     .proj-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; }
     .proj-tag {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
       padding: 0.15rem 0.4rem; border-radius: 4px;
       font-family: 'DM Mono', monospace;
-      font-size: 0.64rem; color: var(--text-dim);
+      font-size: 0.64rem; color: rgba(255,255,255,0.4);
     }
 
     /* EDUCATION */
@@ -221,19 +236,19 @@
       border-radius: 10px; padding: 1.8rem;
       display: flex; gap: 1.5rem; margin-bottom: 1.2rem; transition: all 0.25s;
     }
-    .edu-card:hover { border-color: rgba(0,255,65,0.35); }
+    .edu-card:hover { border-color: rgba(0,255,65,0.25); }
     .edu-icon { font-size: 2.2rem; flex-shrink: 0; }
-    .edu-info h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
-    .edu-info .school { font-size: 0.82rem; color: var(--green); font-weight: 500; margin-bottom: 0.5rem; }
-    .edu-info p { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.75rem; }
+    .edu-info h3 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+    .edu-info .school { font-size: 0.82rem; color: var(--accent); font-weight: 500; margin-bottom: 0.5rem; }
+    .edu-info p { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 0.75rem; }
     .edu-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .edu-tag { background: rgba(0,255,65,0.07); border: 1px solid rgba(0,255,65,0.2); color: var(--green); padding: 0.15rem 0.5rem; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.67rem; }
+    .edu-tag { background: rgba(0,255,65,0.08); border: 1px solid rgba(0,255,65,0.2); color: var(--accent); padding: 0.15rem 0.5rem; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.67rem; }
 
     /* JOB */
     .job-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
-    .job-card { background: rgba(0,255,65,0.03); border: 1px solid rgba(0,255,65,0.2); border-radius: 10px; padding: 1.25rem; }
-    .job-card h3 { font-size: 0.82rem; font-weight: 600; color: var(--green); margin-bottom: 0.4rem; }
-    .job-card p { font-size: 0.8rem; color: var(--text-dim); }
+    .job-card { background: var(--card-bg); border: 1px solid rgba(0,255,65,0.18); border-radius: 10px; padding: 1.25rem; }
+    .job-card h3 { font-size: 0.82rem; font-weight: 600; color: var(--accent); margin-bottom: 0.4rem; }
+    .job-card p { font-size: 0.8rem; color: rgba(255,255,255,0.45); }
 
     /* CONTACT */
     .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
@@ -242,14 +257,14 @@
       border-radius: 10px; padding: 1.25rem; text-align: center;
       transition: all 0.25s;
     }
-    .contact-card:hover { border-color: rgba(0,255,65,0.35); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+    .contact-card:hover { border-color: rgba(0,255,65,0.25); transform: translateY(-2px); }
     .contact-card .icon { font-size: 1.6rem; margin-bottom: 0.5rem; }
-    .contact-card h3 { font-size: 0.78rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
-    .contact-card p, .contact-card a { font-size: 0.75rem; color: var(--text-dim); }
-    .contact-card a:hover { color: var(--green); }
+    .contact-card h3 { font-size: 0.78rem; font-weight: 600; color: #fff; margin-bottom: 0.25rem; }
+    .contact-card p, .contact-card a { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+    .contact-card a:hover { color: var(--accent); }
 
     footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border); position: relative; z-index: 2; }
-    footer p { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.06em; margin-top: 0.4rem; }
+    footer p { font-size: 0.72rem; color: rgba(255,255,255,0.3); letter-spacing: 0.06em; margin-top: 0.4rem; }
 
     @media (max-width: 640px) {
       nav .links { display: none; }
@@ -294,7 +309,7 @@
   </div>
 </section>
 
-<section id="about">
+<section id="about" class="section-bg">
   <div class="section-inner">
     <div class="section-label">01 — About</div>
     <h2 class="section-title">Who I Am</h2>
@@ -313,7 +328,7 @@
   </div>
 </section>
 
-<section id="skills" class="section-bg">
+<section id="skills">
   <div class="section-inner">
     <div class="section-label">02 — Skills</div>
     <h2 class="section-title">Tech Stack</h2>
@@ -326,7 +341,7 @@
   </div>
 </section>
 
-<section id="projects">
+<section id="projects" class="section-bg">
   <div class="section-inner">
     <div class="section-label">03 — Projects</div>
     <h2 class="section-title">Portfolio</h2>
@@ -341,7 +356,7 @@
   </div>
 </section>
 
-<section id="education" class="section-bg">
+<section id="education">
   <div class="section-inner">
     <div class="section-label">04 — Education</div>
     <h2 class="section-title">Academic Background</h2>
@@ -350,7 +365,7 @@
   </div>
 </section>
 
-<section id="job-search">
+<section id="job-search" class="section-bg">
   <div class="section-inner">
     <div class="section-label">05 — Seeking</div>
     <h2 class="section-title">Open to Opportunities</h2>
@@ -363,7 +378,7 @@
   </div>
 </section>
 
-<section id="contact" class="section-bg">
+<section id="contact">
   <div class="section-inner">
     <div class="section-label">06 — Contact</div>
     <h2 class="section-title">Get in Touch</h2>
@@ -396,228 +411,96 @@ import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-// ── Scene Setup ──
+// Canvas setup — transparent bg, opacity controlled by CSS
 const canvas = document.getElementById('bg-canvas');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x000000, 0);  // transparent — hero bg shows through
+renderer.setClearColor(0x000000, 0);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.1;
+renderer.toneMappingExposure = 1.0;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 1000);  // aspect 1:1, updated on resize
+const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 1000);
 camera.position.z = 28;
 
-// ── Post-processing ──
+// Bloom
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
 const bloomPass = new UnrealBloomPass(
-  new THREE.Vector2(window.innerWidth, window.innerHeight),
-  1.1,   // strength
-  0.55,  // radius
-  0.08   // threshold — only bright emissive elements glow
+  new THREE.Vector2(800, 600),
+  0.8, 0.5, 0.1
 );
 composer.addPass(bloomPass);
 
-// ── OrbitControls (mouse drag to rotate) ──
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.dampingFactor = 0.04;
-controls.enableZoom = false;
-controls.enablePan = false;
-controls.autoRotate = true;
-controls.autoRotateSpeed = 0.6;
-controls.minPolarAngle = Math.PI / 3.5;
-controls.maxPolarAngle = Math.PI - Math.PI / 3.5;
-
-// ══════════════════════════════════════
-// HERO: Torus Knot (3,7) — beautiful mathematical curve
-// Fills space nicely, looks stunning with bloom
-// ══════════════════════════════════════
+// Torus Knot
 const torusKnotGeo = new THREE.TorusKnotGeometry(9, 2.8, 200, 32, 3, 7);
-const torusKnotMat = new THREE.MeshBasicMaterial({
-  color: 0x00ff41,
-  transparent: true,
-  opacity: 0.9,
-});
+const torusKnotMat = new THREE.MeshBasicMaterial({ color: 0x00ff41 });
 const torusKnot = new THREE.Mesh(torusKnotGeo, torusKnotMat);
 scene.add(torusKnot);
 
-// Wireframe overlay
-const torusKnotWireGeo = new THREE.TorusKnotGeometry(9, 2.85, 120, 16, 3, 7);
-const torusKnotWireMat = new THREE.MeshBasicMaterial({
-  color: 0x00ff41,
-  wireframe: true,
-  transparent: true,
-  opacity: 0.06,
-  blending: THREE.AdditiveBlending,
-});
-const torusKnotWire = new THREE.Mesh(torusKnotWireGeo, torusKnotWireMat);
-scene.add(torusKnotWire);
-
-// ══════════════════════════════════════
-// RING SYSTEM — concentric glowing rings
-// ══════════════════════════════════════
+// Rings
 const ringGroup = new THREE.Group();
 scene.add(ringGroup);
-
-function makeRing(radius, tube, opacity, colorHex = 0x00ff41) {
-  const geo = new THREE.TorusGeometry(radius, tube, 8, 120);
-  const mat = new THREE.MeshBasicMaterial({
-    color: colorHex, transparent: true, opacity,
-    blending: THREE.AdditiveBlending, depthWrite: false,
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  ringGroup.add(mesh);
-  return mesh;
+function makeRing(r, t, op) {
+  const m = new THREE.Mesh(
+    new THREE.TorusGeometry(r, t, 8, 120),
+    new THREE.MeshBasicMaterial({ color: 0x00ff41, transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false })
+  );
+  ringGroup.add(m);
+  return m;
 }
-
 const rings = [
-  makeRing(13, 0.04, 0.35),
-  makeRing(16, 0.03, 0.22),
-  makeRing(20, 0.025, 0.15),
-  makeRing(24, 0.02, 0.1),
-  makeRing(29, 0.018, 0.07),
+  makeRing(13, 0.04, 0.3),
+  makeRing(16, 0.03, 0.2),
+  makeRing(20, 0.025, 0.13),
+  makeRing(24, 0.02, 0.09),
+  makeRing(29, 0.018, 0.06),
 ];
-// Tilt the rings at different angles
 rings[1].rotation.x = Math.PI / 4;
 rings[2].rotation.x = Math.PI / 3;
 rings[3].rotation.y = Math.PI / 5;
 rings[4].rotation.x = Math.PI / 2.5;
 rings[4].rotation.z = Math.PI / 6;
 
-// ══════════════════════════════════════
-// FLOATING PARTICLES — constellation field
-// ══════════════════════════════════════
-const PART_COUNT = 500;
-const pGeo = new THREE.BufferGeometry();
-const pPos = new Float32Array(PART_COUNT * 3);
-const pSeed = new Float32Array(PART_COUNT); // per-particle random offset
-for (let i = 0; i < PART_COUNT; i++) {
-  // Distribute in a large sphere shell
-  const r = 20 + Math.random() * 45;
-  const theta = Math.random() * Math.PI * 2;
-  const phi = Math.acos(2 * Math.random() - 1);
-  pPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-  pPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-  pPos[i * 3 + 2] = r * Math.cos(phi);
-  pSeed[i] = Math.random() * Math.PI * 2;
+// Particles
+function makeParticles(count, radius, color, size, op) {
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const r2 = radius + Math.random() * radius * 0.8;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    pos[i*3] = r2 * Math.sin(phi) * Math.cos(theta);
+    pos[i*3+1] = r2 * Math.sin(phi) * Math.sin(theta);
+    pos[i*3+2] = r2 * Math.cos(phi);
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const mat = new THREE.PointsMaterial({ color, size, transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true });
+  return new THREE.Points(geo, mat);
 }
-pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-const pMat = new THREE.PointsMaterial({
-  color: 0x00ff41,
-  size: 0.18,
-  transparent: true,
-  opacity: 0.5,
-  blending: THREE.AdditiveBlending,
-  depthWrite: false,
-  sizeAttenuation: true,
-});
-const particles = new THREE.Points(pGeo, pMat);
-scene.add(particles);
+scene.add(makeParticles(400, 22, 0x00ff41, 0.18, 0.4));
+scene.add(makeParticles(150, 40, 0x00c032, 0.1, 0.2));
 
-// Second, sparser dim particle layer (deeper)
-const PART_COUNT_2 = 200;
-const pGeo2 = new THREE.BufferGeometry();
-const pPos2 = new Float32Array(PART_COUNT_2 * 3);
-for (let i = 0; i < PART_COUNT_2; i++) {
-  const r = 40 + Math.random() * 50;
-  const theta = Math.random() * Math.PI * 2;
-  const phi = Math.acos(2 * Math.random() - 1);
-  pPos2[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-  pPos2[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-  pPos2[i * 3 + 2] = r * Math.cos(phi);
+// Glow clouds
+function glow(x, y, z, r, op) {
+  const m = new THREE.Mesh(
+    new THREE.SphereGeometry(r, 12, 12),
+    new THREE.MeshBasicMaterial({ color: 0x00ff41, transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false })
+  );
+  m.position.set(x, y, z);
+  scene.add(m);
+  return m;
 }
-pGeo2.setAttribute('position', new THREE.BufferAttribute(pPos2, 3));
-const pMat2 = new THREE.PointsMaterial({
-  color: 0x00c032,
-  size: 0.1,
-  transparent: true,
-  opacity: 0.25,
-  blending: THREE.AdditiveBlending,
-  depthWrite: false,
-  sizeAttenuation: true,
-});
-const particles2 = new THREE.Points(pGeo2, pMat2);
-scene.add(particles2);
-
-// ══════════════════════════════════════
-// AMBIENT CLOUDS — soft additive glow spheres
-// ══════════════════════════════════════
-function addGlowSphere(x, y, z, radius, opacity) {
-  const geo = new THREE.SphereGeometry(radius, 16, 16);
-  const mat = new THREE.MeshBasicMaterial({
-    color: 0x00ff41,
-    transparent: true,
-    opacity,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(x, y, z);
-  scene.add(mesh);
-  return mesh;
-}
-
 const clouds = [
-  addGlowSphere(18, 8, -5, 4, 0.015),
-  addGlowSphere(-15, -10, 5, 5, 0.012),
-  addGlowSphere(8, 18, 8, 3.5, 0.01),
-  addGlowSphere(-20, 5, -10, 6, 0.008),
-  addGlowSphere(0, -20, -8, 4, 0.01),
+  glow(18, 8, -5, 4, 0.012),
+  glow(-15, -10, 5, 5, 0.01),
+  glow(8, 18, 8, 3.5, 0.008),
+  glow(-20, 5, -10, 6, 0.007),
+  glow(0, -20, -8, 4, 0.008),
 ];
 
-// ── Animation ──
-const clock = new THREE.Clock();
-
-function animate() {
-  requestAnimationFrame(animate);
-  const t = clock.getElapsedTime();
-
-  // Torus knot pulsing scale
-  const scale = 1 + Math.sin(t * 0.4) * 0.015;
-  torusKnot.scale.setScalar(scale);
-  torusKnotWire.scale.setScalar(scale);
-
-  // Torus knot vertex breathing (subtle)
-  const pos = torusKnotGeo.attributes.position;
-  for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i);
-    const y = pos.getY(i);
-    const z = pos.getZ(i);
-    const noise = Math.sin(x * 0.3 + t) * 0.04;
-    pos.setXYZ(i, x * (1 + noise), y * (1 + noise), z * (1 + noise));
-  }
-  pos.needsUpdate = true;
-  torusKnotGeo.computeVertexNormals();
-
-  // Rings rotate independently
-  ringGroup.rotation.z = t * 0.04;
-  rings[0].rotation.z = -t * 0.08;
-  rings[1].rotation.y = t * 0.06;
-  rings[2].rotation.x = t * 0.05;
-  rings[3].rotation.z = t * 0.04;
-
-  // Particles slow drift
-  particles.rotation.y = t * 0.015;
-  particles.rotation.x = t * 0.008;
-  particles2.rotation.y = -t * 0.01;
-  particles2.rotation.x = t * 0.006;
-
-  // Glow clouds breathe
-  for (let i = 0; i < clouds.length; i++) {
-    const cloud = clouds[i];
-    const s = 1 + Math.sin(t * 0.3 + i * 1.2) * 0.2;
-    cloud.scale.setScalar(s);
-  }
-
-  controls.update();
-  composer.render();
-}
-
-// ── Resize — canvas matches hero section ──
+// Resize — canvas = hero section size
 function onResize() {
   const hero = document.querySelector('.hero');
   if (hero) {
@@ -629,10 +512,31 @@ function onResize() {
     camera.updateProjectionMatrix();
   }
 }
-
 window.addEventListener('resize', onResize);
-onResize();  // initial size
+onResize();
 
+// Animation
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+
+  const s = 1 + Math.sin(t * 0.4) * 0.015;
+  torusKnot.scale.setScalar(s);
+  torusKnot.rotation.z = t * 0.06;
+
+  ringGroup.rotation.z = t * 0.04;
+  rings[0].rotation.z = -t * 0.08;
+  rings[1].rotation.y = t * 0.06;
+  rings[2].rotation.x = t * 0.05;
+  rings[3].rotation.z = t * 0.04;
+
+  for (let i = 0; i < clouds.length; i++) {
+    clouds[i].scale.setScalar(1 + Math.sin(t * 0.3 + i * 1.2) * 0.2);
+  }
+
+  composer.render();
+}
 animate();
 </script>
 
