@@ -22,10 +22,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg: #0a0a0f;
-      --surface: #12121a;
+      --surface: rgba(10,10,15,0.85);
       --surface2: #1a1a26;
       --border: #2a2a3a;
       --accent: #6366f1;
@@ -38,9 +39,8 @@
       --green-glow: rgba(34, 197, 94, 0.15);
     }
 
-    html { scroll-behavior: smooth; }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', -apple-system, sans-serif;
@@ -50,13 +50,27 @@
       overflow-x: hidden;
     }
 
-    /* MATRIX CANVAS BACKGROUND */
-    #matrix-bg {
+    #bg-canvas {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: 0;
+    }
+
+    /* Scanline overlay */
+    #bg-canvas::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
       pointer-events: none;
+      z-index: 1;
     }
 
     a { color: var(--accent2); text-decoration: none; transition: color 0.2s; }
@@ -65,8 +79,8 @@
     /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(10,10,15,0.85);
-      backdrop-filter: blur(16px);
+      background: rgba(10,10,15,0.75);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
     }
@@ -76,10 +90,10 @@
       height: 56px;
     }
     nav .logo { font-weight: 700; font-size: 1rem; color: #fff; }
-    nav .logo span { color: var(--accent2); }
+    nav .logo span { color: var(--green); text-shadow: 0 0 10px rgba(0,255,80,0.5); }
     nav .links { display: flex; gap: 1.5rem; }
     nav .links a { color: var(--text2); font-size: 0.875rem; font-weight: 500; }
-    nav .links a:hover { color: #fff; }
+    nav .links a:hover { color: var(--green); }
     nav .status {
       display: flex; align-items: center; gap: 0.4rem;
       font-size: 0.75rem; color: var(--green);
@@ -88,8 +102,19 @@
       padding: 0.25rem 0.75rem;
       border-radius: 999px;
     }
-    nav .status::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+    nav .status::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 6px var(--green); }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* SECTIONS */
+    section { padding: 5rem 2rem; position: relative; z-index: 2; }
+    .section-inner { max-width: 960px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 8px rgba(0,255,80,0.4);
+    }
+    .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 2.5rem; color: #fff; }
 
     /* HERO */
     .hero {
@@ -102,28 +127,30 @@
     .hero::before {
       content: '';
       position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,255,65,0.06) 0%, transparent 70%);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,255,80,0.05) 0%, transparent 60%);
       pointer-events: none;
     }
     .hero .content { position: relative; z-index: 1; max-width: 720px; }
     .hero .badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      background: rgba(18,18,26,0.8); border: 1px solid var(--border);
+      background: var(--surface); border: 1px solid var(--border);
       padding: 0.4rem 1rem; border-radius: 999px;
       font-size: 0.8rem; color: var(--text2); margin-bottom: 1.5rem;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
     }
     .hero .badge .flag { font-size: 1rem; }
     .hero h1 {
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-size: clamp(2.5rem, 8vw, 5rem);
       font-weight: 800;
-      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      background: linear-gradient(135deg, #fff 0%, #22c55e 50%, #94a3b8 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       line-height: 1.1; margin-bottom: 0.5rem;
+      text-shadow: none;
     }
     .hero .title {
-      font-size: clamp(1.1rem, 3vw, 1.4rem);
-      color: var(--accent2); font-weight: 500; margin-bottom: 1.5rem;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--green); font-weight: 500; margin-bottom: 1.5rem;
+      text-shadow: 0 0 12px rgba(0,255,80,0.4);
     }
     .hero p {
       font-size: 1.05rem; color: var(--text2);
@@ -138,26 +165,24 @@
       transition: all 0.2s; cursor: pointer;
     }
     .hero .btn.primary {
-      background: var(--accent); color: #fff;
-      box-shadow: 0 0 24px var(--accent-glow);
+      background: var(--green); color: #000;
+      box-shadow: 0 0 30px rgba(0,255,80,0.3);
     }
-    .hero .btn.primary:hover { background: var(--accent2); transform: translateY(-1px); }
+    .hero .btn.primary:hover { background: #4ade80; transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,255,80,0.5); }
     .hero .btn.secondary {
-      background: rgba(18,18,26,0.8); color: var(--text);
-      border: 1px solid var(--border);
-      backdrop-filter: blur(8px);
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border); backdrop-filter: blur(12px);
     }
-    .hero .btn.secondary:hover { border-color: var(--accent2); transform: translateY(-1px); }
+    .hero .btn.secondary:hover { border-color: var(--green); color: var(--green); transform: translateY(-1px); }
 
-    /* SECTIONS */
-    section { padding: 5rem 2rem; position: relative; z-index: 1; }
-    .section-inner { max-width: 960px; margin: 0 auto; }
-    .section-label {
-      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent2);
-      margin-bottom: 0.5rem;
+    /* GLASS CARDS */
+    .glass {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 12px;
     }
-    .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 2.5rem; }
 
     /* ABOUT */
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
@@ -165,11 +190,11 @@
     .about-text p strong { color: var(--text); }
     .about-highlights { display: flex; flex-direction: column; gap: 1rem; }
     .highlight-card {
-      background: rgba(18,18,26,0.8); border: 1px solid var(--border);
+      background: rgba(18,18,26,0.7); border: 1px solid var(--border);
       border-radius: 10px; padding: 1.25rem;
-      transition: border-color 0.2s; backdrop-filter: blur(8px);
+      transition: all 0.2s; backdrop-filter: blur(12px);
     }
-    .highlight-card:hover { border-color: var(--accent2); }
+    .highlight-card:hover { border-color: var(--green); box-shadow: 0 0 20px rgba(0,255,80,0.1); }
     .highlight-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
     .highlight-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
     .highlight-card p { font-size: 0.8rem; color: var(--text2); margin: 0; }
@@ -177,62 +202,64 @@
     /* SKILLS */
     .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
     .skill-card {
-      background: rgba(18,18,26,0.8); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.5rem; backdrop-filter: blur(8px);
+      background: rgba(18,18,26,0.7); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem; backdrop-filter: blur(12px);
+      transition: all 0.2s;
     }
+    .skill-card:hover { border-color: var(--green); box-shadow: 0 0 16px rgba(0,255,80,0.08); }
     .skill-card .skill-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
     .skill-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; }
     .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .skill-tag {
-      background: var(--surface2); border: 1px solid var(--border);
+      background: rgba(26,26,38,0.8); border: 1px solid var(--border);
       padding: 0.25rem 0.6rem; border-radius: 6px;
       font-size: 0.75rem; color: var(--text2); font-family: 'JetBrains Mono', monospace;
     }
-    .skill-tag.primary { background: var(--accent-glow); border-color: rgba(99,102,241,0.4); color: var(--accent2); }
+    .skill-tag.primary { background: rgba(0,255,80,0.1); border-color: rgba(0,255,80,0.3); color: var(--green); }
 
     /* PROJECTS */
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
     .project-card {
-      background: rgba(18,18,26,0.8); border: 1px solid var(--border);
+      background: rgba(18,18,26,0.7); border: 1px solid var(--border);
       border-radius: 12px; padding: 1.5rem;
       transition: all 0.2s; display: flex; flex-direction: column;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
     }
-    .project-card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+    .project-card:hover { border-color: var(--green); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(0,255,80,0.1); }
     .project-top { display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem; }
     .project-icon { font-size: 1.5rem; }
     .project-links { display: flex; gap: 0.75rem; }
     .project-links a { color: var(--text3); font-size: 0.85rem; }
-    .project-links a:hover { color: var(--accent2); }
+    .project-links a:hover { color: var(--green); }
     .project-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
     .project-card p { font-size: 0.82rem; color: var(--text2); flex: 1; margin-bottom: 1rem; line-height: 1.6; }
     .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; }
     .project-tag {
-      background: var(--surface2); border: 1px solid var(--border);
+      background: rgba(26,26,38,0.8); border: 1px solid var(--border);
       padding: 0.2rem 0.5rem; border-radius: 4px;
       font-size: 0.7rem; color: var(--text3); font-family: 'JetBrains Mono', monospace;
     }
 
     /* EDUCATION */
     .edu-card {
-      background: rgba(18,18,26,0.8); border: 1px solid var(--border);
+      background: rgba(18,18,26,0.7); border: 1px solid var(--border);
       border-radius: 12px; padding: 2rem;
       display: flex; gap: 1.5rem; align-items: start;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
+      margin-bottom: 1.5rem;
     }
     .edu-icon { font-size: 2.5rem; }
     .edu-info h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
-    .edu-info .school { color: var(--accent2); font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .edu-info .school { color: var(--green); font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; }
     .edu-info p { font-size: 0.85rem; color: var(--text2); margin-bottom: 0.75rem; }
     .edu-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .edu-tag { background: var(--accent-glow); border: 1px solid rgba(99,102,241,0.3); color: var(--accent2); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
+    .edu-tag { background: rgba(0,255,80,0.1); border: 1px solid rgba(0,255,80,0.3); color: var(--green); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; }
 
     /* JOB-SEEKING */
     .job-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
     .job-card {
-      background: rgba(18,18,26,0.8); border: 1px solid rgba(34,197,94,0.3);
-      border-radius: 10px; padding: 1.25rem;
-      backdrop-filter: blur(8px);
+      background: rgba(18,18,26,0.7); border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 10px; padding: 1.25rem; backdrop-filter: blur(12px);
     }
     .job-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--green); }
     .job-card p { font-size: 0.8rem; color: var(--text2); }
@@ -240,22 +267,22 @@
     /* CONTACT */
     .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
     .contact-card {
-      background: rgba(18,18,26,0.8); border: 1px solid var(--border);
+      background: rgba(18,18,26,0.7); border: 1px solid var(--border);
       border-radius: 10px; padding: 1.25rem; text-align: center;
-      transition: all 0.2s; backdrop-filter: blur(8px);
+      transition: all 0.2s; backdrop-filter: blur(12px);
     }
-    .contact-card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+    .contact-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 0 16px rgba(0,255,80,0.1); }
     .contact-card .icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
     .contact-card h3 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem; }
     .contact-card p { font-size: 0.78rem; color: var(--text2); }
-    .contact-card a { color: var(--accent2); }
+    .contact-card a { color: var(--green); }
 
     /* FOOTER */
     footer {
       text-align: center; padding: 2rem;
       border-top: 1px solid var(--border);
       color: var(--text3); font-size: 0.8rem;
-      position: relative; z-index: 1;
+      position: relative; z-index: 2;
     }
     footer p { margin-top: 0.5rem; }
 
@@ -265,12 +292,16 @@
       .about-grid { grid-template-columns: 1fr; }
       .edu-card { flex-direction: column; }
     }
+
+    /* SECTION BACKGROUNDS */
+    #skills, #education, #contact { background: rgba(10,10,15,0.6); }
+    #job-search { background: rgba(10,10,15,0.3); }
   </style>
 </head>
 <body>
 
-<!-- MATRIX BACKGROUND -->
-<canvas id="matrix-bg"></canvas>
+<!-- THREE.JS BACKGROUND -->
+<canvas id="bg-canvas"></canvas>
 
 <!-- NAV -->
 <nav>
@@ -357,7 +388,7 @@
 </section>
 
 <!-- SKILLS -->
-<section id="skills" style="background: rgba(18,18,26,0.6);">
+<section id="skills">
   <div class="section-inner">
     <div class="section-label">Technical Skills</div>
     <h2 class="section-title">What I Work With</h2>
@@ -534,11 +565,11 @@
 </section>
 
 <!-- EDUCATION -->
-<section id="education" style="background: rgba(18,18,26,0.6);">
+<section id="education">
   <div class="section-inner">
     <div class="section-label">Education</div>
     <h2 class="section-title">Academic Background</h2>
-    <div class="edu-card" style="max-width: 700px;">
+    <div class="edu-card">
       <div class="edu-icon">🎓</div>
       <div class="edu-info">
         <h3>Master of Information Technology (MInfoTech)</h3>
@@ -552,8 +583,7 @@
         </div>
       </div>
     </div>
-    <div style="height: 1.5rem;"></div>
-    <div class="edu-card" style="max-width: 700px;">
+    <div class="edu-card">
       <div class="edu-icon">🎓</div>
       <div class="edu-info">
         <h3>Bachelor of Computer Science / Software Engineering</h3>
@@ -597,7 +627,7 @@
 </section>
 
 <!-- CONTACT -->
-<section id="contact" style="background: rgba(18,18,26,0.6);">
+<section id="contact">
   <div class="section-inner">
     <div class="section-label">Get in Touch</div>
     <h2 class="section-title">Contact</h2>
@@ -638,82 +668,234 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>Built with HTML & CSS · Hosted on GitHub Pages</p>
+  <p>Built with HTML & CSS · Three.js WebGL Background · Hosted on GitHub Pages</p>
   <p>© 2026 Ming Zhao · All rights reserved</p>
 </footer>
 
-<!-- MATRIX RAIN SCRIPT -->
-<script>
-(function() {
-  const canvas = document.getElementById('matrix-bg');
-  const ctx = canvas.getContext('2d');
+<!-- THREE.JS MATRIX RAIN -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-  let W, H, cols, fontSize;
-  let drops = [];
+// ─── Scene Setup ───────────────────────────────────────────────────────────
+const canvas = document.getElementById('bg-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x0a0a0f);
 
-  // Matrix character set: binary + hex + symbols
-  const chars = '01010101010101010101010101010101010101010101010101' +
-                'abcdefABCDEF0123456789+/│─┌┐└┘├┤┬┴┼▀▄■□▪▫' +
-                '0123456789abcdefABCDEF0987654321FEDCBAfedcba';
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 60;
 
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-    fontSize = 14;
-    cols = Math.floor(W / fontSize);
-    // Reinit drops
-    drops = [];
-    for (let i = 0; i < cols; i++) {
-      drops[i] = Math.random() * H / fontSize;
+// ─── Post-processing (Bloom) ────────────────────────────────────────────────
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloomPass = new UnrealBloomPass(
+  new THREE.Vector2(window.innerWidth, window.innerHeight),
+  0.8,   // strength
+  0.4,   // radius
+  0.2    // threshold — only bright things glow
+);
+composer.addPass(bloomPass);
+
+// ─── Matrix Rain Columns ───────────────────────────────────────────────────
+const COLS = 80;
+const CHAR_H = 1.4;
+const CHAR_W = 1.0;
+const ROWS = 80;
+const DEPTH = 24;
+
+const CHARS = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+// Katakana + binary — proper Matrix vibes
+
+// Build character atlas texture (canvas → texture)
+const charW = 64, charH = 80;
+const atlasCanvas = document.createElement('canvas');
+atlasCanvas.width = charW * 16;
+atlasCanvas.height = charH * 2;
+const aCtx = atlasCanvas.getContext('2d');
+aCtx.fillStyle = '#0a0a0f';
+aCtx.fillRect(0, 0, atlasCanvas.width, atlasCanvas.height);
+aCtx.font = `bold ${charH - 8}px 'JetBrains Mono', 'Courier New', monospace`;
+aCtx.textAlign = 'center';
+
+const half = '0123456789ABCDEF';
+for (let row = 0; row < 2; row++) {
+  for (let col = 0; col < 16; col++) {
+    const idx = row * 16 + col;
+    const ch = CHARS[idx] || '?';
+    // Color gradient: bright head → mid → dark trail
+    const brightness = 1 - (idx / (16 * 2));
+    const r = Math.floor(20 + brightness * 235);
+    const g = Math.floor(brightness * 255);
+    const b = Math.floor(brightness * 120);
+    aCtx.fillStyle = `rgb(${r},${g},${b})`;
+    aCtx.fillText(ch, col * charW + charW / 2, row * charH + charH - 10);
+  }
+}
+
+const atlasTex = new THREE.CanvasTexture(atlasCanvas);
+atlasTex.magFilter = THREE.NearestFilter;
+atlasTex.minFilter = THREE.NearestFilter;
+
+// Each column: one long plane with multiple char quads
+// Actually: instanced mesh — one PlaneGeometry per char slot, instanced
+const columns = [];
+
+class RainColumn {
+  constructor(colIdx) {
+    this.colIdx = colIdx;
+    this.x = (colIdx - COLS / 2) * CHAR_W * 1.1;
+    this.speed = 0.3 + Math.random() * 0.6;
+    this.charCount = 8 + Math.floor(Math.random() * 16);
+    this.offset = Math.random() * 1000;
+    this.alive = true;
+
+    // Geometry: one quad per character
+    const geo = new THREE.PlaneGeometry(CHAR_W * 0.85, CHAR_H * 0.9);
+
+    // Assign random char indices for each slot
+    this.charIdxs = [];
+    for (let i = 0; i < this.charCount; i++) {
+      this.charIdxs.push(Math.floor(Math.random() * CHARS.length));
     }
+
+    // InstancedMesh approach
+    this.mesh = new THREE.InstancedMesh(geo, [
+      new THREE.MeshBasicMaterial({ map: atlasTex, transparent: true, depthWrite: false, side: THREE.DoubleSide }),
+    ], this.charCount);
+
+    this.mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+
+    // Spread along Y (top to bottom, negative = up)
+    const dummy = new THREE.Object3D();
+    for (let i = 0; i < this.charCount; i++) {
+      dummy.position.set(this.x, -i * CHAR_H, (Math.random() - 0.5) * DEPTH * 0.5);
+      dummy.updateMatrix();
+      this.mesh.setMatrixAt(i, dummy.matrix);
+    }
+    this.mesh.instanceMatrix.needsUpdate = true;
+
+    scene.add(this.mesh);
   }
 
-  resize();
-  window.addEventListener('resize', resize);
+  update(time) {
+    const totalLen = this.charCount * CHAR_H;
+    // Slide down: y starts at top, goes down
+    const baseY = ((time * this.speed + this.offset) % (ROWS * CHAR_H)) - ROWS * CHAR_H;
 
-  // Fade trail effect: draw semi-transparent black each frame
-  function draw() {
-    // Dark trail — lower alpha = longer trails
-    ctx.fillStyle = 'rgba(10, 10, 15, 0.05)';
-    ctx.fillRect(0, 0, W, H);
+    const dummy = new THREE.Object3D();
+    for (let i = 0; i < this.charCount; i++) {
+      let y = baseY + i * CHAR_H;
+      // Wrap: characters that go off bottom reappear at top
+      if (y > ROWS * CHAR_H) y -= (this.charCount + ROWS) * CHAR_H;
 
-    ctx.font = `${fontSize}px 'JetBrains Mono', 'Courier New', monospace`;
+      dummy.position.set(
+        this.x + Math.sin(time * 0.5 + i * 0.3) * 0.1,
+        y,
+        0
+      );
+      dummy.updateMatrix();
+      this.mesh.setMatrixAt(i, dummy.matrix);
 
-    for (let i = 0; i < cols; i++) {
-      const char = chars[Math.floor(Math.random() * chars.length)];
-      const x = i * fontSize;
-      const y = drops[i] * fontSize;
-
-      // Head character — bright green-white
-      const brightness = Math.random();
-      if (brightness > 0.97) {
-        // Rare bright flash — white
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-      } else if (brightness > 0.9) {
-        // Bright green
-        ctx.fillStyle = 'rgba(0, 255, 100, 0.85)';
-      } else {
-        // Classic matrix green
-        ctx.fillStyle = 'rgba(0, 230, 80, 0.6)';
+      // Char index shifts over time — characters change
+      if (Math.random() < 0.005) {
+        this.charIdxs[i] = Math.floor(Math.random() * CHARS.length);
       }
-      ctx.fillText(char, x, y);
-
-      // Trail glow (draw the char again at reduced opacity for ghost)
-      if (y > fontSize * 2) {
-        ctx.fillStyle = 'rgba(0, 180, 60, 0.15)';
-        ctx.fillText(char, x, y - fontSize);
-      }
-
-      // Reset drop to top when it exits screen, with random chance
-      if (y > H && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-      drops[i]++;
+      const ci = this.charIdxs[i];
+      const atlasCol = ci % 16;
+      const atlasRow = Math.floor(ci / 16);
+      this.mesh.setUVAt(i,
+        (atlasCol + 0.5) / 16,
+        (atlasRow + 0.5) / 2
+      );
+    }
+    this.mesh.instanceMatrix.needsUpdate = true;
+    if (this.mesh.geometry.attributes.uv) {
+      this.mesh.geometry.attributes.uv.needsUpdate = true;
     }
   }
+}
 
-  setInterval(draw, 33);
-})();
+// Build columns
+for (let c = 0; c < COLS; c++) {
+  columns.push(new RainColumn(c));
+}
+
+// ─── Floating Particles ───────────────────────────────────────────────────
+const PARTICLE_COUNT = 200;
+const pGeo = new THREE.BufferGeometry();
+const pPositions = new Float32Array(PARTICLE_COUNT * 3);
+const pSpeeds = new Float32Array(PARTICLE_COUNT);
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+  pPositions[i * 3] = (Math.random() - 0.5) * 120;
+  pPositions[i * 3 + 1] = (Math.random() - 0.5) * 80;
+  pPositions[i * 3 + 2] = (Math.random() - 0.5) * 20;
+  pSpeeds[i] = 0.01 + Math.random() * 0.03;
+}
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+const pMat = new THREE.PointsMaterial({
+  color: 0x00ff80,
+  size: 0.3,
+  transparent: true,
+  opacity: 0.6,
+  sizeAttenuation: true,
+});
+const particles = new THREE.Points(pGeo, pMat);
+scene.add(particles);
+
+// ─── Mouse Parallax ───────────────────────────────────────────────────────
+const mouse = { x: 0, y: 0 };
+window.addEventListener('mousemove', (e) => {
+  mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
+  mouse.y = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+// ─── Animation Loop ────────────────────────────────────────────────────────
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+
+  // Update rain
+  for (const col of columns) col.update(t);
+
+  // Float particles
+  const pos = pGeo.attributes.position.array;
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    pos[i * 3 + 1] += pSpeeds[i];
+    if (pos[i * 3 + 1] > 40) pos[i * 3 + 1] = -40;
+  }
+  pGeo.attributes.position.needsUpdate = true;
+
+  // Camera gentle float + mouse parallax
+  camera.position.x += (mouse.x * 3 - camera.position.x) * 0.02;
+  camera.position.y += (-mouse.y * 2 - camera.position.y) * 0.02;
+  camera.lookAt(0, 0, 0);
+
+  composer.render();
+}
+
+// ─── Resize ───────────────────────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  composer.setSize(window.innerWidth, window.innerHeight);
+});
+
+animate();
 </script>
 
 </body>
