@@ -45,7 +45,7 @@ html, body {
   width: 100%;
   height: 100%;
   background: #0a1410;
-  color: #ecfdf5;
+  color: #f0fdf4;
   font-family: 'Inter', system-ui, -apple-system, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Twemoji Mozilla', sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -56,7 +56,7 @@ html, body {
 
 body {
   background:
-    linear-gradient(180deg, rgba(10, 20, 16, 0.55) 0%, rgba(13, 31, 23, 0.65) 100%),
+    linear-gradient(180deg, rgba(10, 20, 16, 0.45) 0%, rgba(13, 31, 23, 0.55) 100%),
     url('assets/bg-forest.jpg') center/cover no-repeat fixed,
     linear-gradient(180deg, #0a1410 0%, #0d1f17 50%, #0a1410 100%);
   background-attachment: fixed;
@@ -94,7 +94,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.15em;
-  color: rgba(241,245,249,0.85);
+  color: #f0fdf4;
   display: flex; align-items: center; gap: 8px;
   mix-blend-mode: difference;
 }
@@ -112,53 +112,79 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .dotnav {
   position: fixed;
   top: 50%;
-  right: 36px;
+  right: 24px;
   transform: translateY(-50%);
   z-index: 50;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  align-items: flex-end;
+  gap: 14px;
+  align-items: stretch;
+  background: rgba(10, 20, 16, 0.55);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(134, 239, 172, 0.18);
+  border-radius: 14px;
+  padding: 10px 8px;
+  box-shadow: 0 20px 60px -10px rgba(0,0,0,0.4);
 }
 .dotnav .item {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 10px;
   cursor: pointer;
+  padding: 8px 10px 8px 8px;
+  border-radius: 8px;
   transition: all .35s cubic-bezier(.2,.8,.2,1);
+  min-width: 36px;
+  position: relative;
+}
+.dotnav .item:hover { background: rgba(134,239,172,0.06); }
+.dotnav .item.active {
+  background: linear-gradient(90deg, rgba(16,185,129,0.18), rgba(16,185,129,0.04));
+  box-shadow: inset 3px 0 0 #10b981;
 }
 .dotnav .label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: rgba(241,245,249,0.4);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: rgba(236, 253, 245, 0.55);
   text-transform: uppercase;
-  opacity: 0;
-  transform: translateX(8px);
-  transition: all .3s ease;
-  pointer-events: none;
   white-space: nowrap;
+  font-weight: 500;
+  transition: all .3s ease;
 }
-.dotnav .item:hover .label,
-.dotnav .item.active .label { opacity: 1; transform: translateX(0); color: #ecfdf5; }
+.dotnav .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(134, 239, 172, 0.6);
+  font-weight: 600;
+  min-width: 18px;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+.dotnav .item.active .label { color: #f0fdf4; }
+.dotnav .item.active .num { color: #10b981; }
+.dotnav .item:hover .label { color: #d1fae5; }
+.dotnav .item:hover .num { color: #34d399; }
 .dotnav .dot {
-  width: 8px; height: 8px;
+  width: 6px; height: 6px;
   border-radius: 50%;
-  background: rgba(241,245,249,0.25);
-  border: 1px solid rgba(241,245,249,0.35);
+  background: rgba(134, 239, 172, 0.3);
   transition: all .35s cubic-bezier(.2,.8,.2,1);
-  position: relative;
+  flex-shrink: 0;
 }
-.dotnav .item:hover .dot { background: rgba(134,239,172,0.55); border-color: #86efac; transform: scale(1.25); }
-.dotnav .item.active .dot {
-  background: #86efac;
-  border-color: #86efac;
+.dotnav .item:hover .dot {
+  background: #6ee7b7;
   transform: scale(1.4);
-  box-shadow: 0 0 14px rgba(134,239,172,0.7);
+  box-shadow: 0 0 8px rgba(110, 231, 183, 0.7);
 }
-.dotnav .item.active .dot::after {
-  content: ''; position: absolute; inset: -8px;
-  border: 1px solid rgba(134,239,172,0.3);
-  border-radius: 50%;
-  animation: ring 2s ease-out infinite;
+.dotnav .item.active .dot {
+  background: #10b981;
+  transform: scale(1.5);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.9);
+  animation: dotPulse 1.8s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.9); }
+  50% { box-shadow: 0 0 20px rgba(74, 222, 128, 1); }
 }
 @keyframes ring {
   0% { transform: scale(0.8); opacity: 0.8; }
@@ -234,7 +260,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   letter-spacing: 0.4em;
-  color: rgba(134,239,172,0.85);
+  color: #a7f3d0;
+  font-weight: 600;
+  text-shadow: 0 0 20px rgba(134, 239, 172, 0.4);
   text-transform: uppercase;
   margin-bottom: 32px;
   display: inline-flex; align-items: center; gap: 14px;
@@ -261,14 +289,80 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 .hero-sub {
-  font-size: clamp(14px, 1.4vw, 18px);
-  font-weight: 300;
-  color: rgba(241,245,249,0.7);
-  max-width: 580px;
+  font-size: clamp(15px, 1.5vw, 20px);
+  font-weight: 400;
+  color: #f0fdf4;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+  max-width: 620px;
   line-height: 1.6;
-  margin-bottom: 56px;
+  margin-bottom: 32px;
 }
-.hero-sub strong { color: #bbf7d0; font-weight: 500; }
+.hero-sub strong {
+  color: #ecfdf5;
+  font-weight: 700;
+  text-shadow: 0 0 24px rgba(134, 239, 172, 0.5);
+  background: linear-gradient(135deg, #bbf7d0 0%, #6ee7b7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 0 2px;
+}
+
+/* Video intro CTA */
+.video-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px 14px 20px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid rgba(134, 239, 172, 0.4);
+  box-shadow: 0 8px 32px -8px rgba(16, 185, 129, 0.6), inset 0 1px 0 rgba(255,255,255,0.15);
+  cursor: pointer;
+  transition: all .35s cubic-bezier(.2,.8,.2,1);
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto 40px;
+}
+.video-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform .6s ease;
+}
+.video-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px -8px rgba(16, 185, 129, 0.8), inset 0 1px 0 rgba(255,255,255,0.2);
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+}
+.video-btn:hover::before { transform: translateX(100%); }
+.video-btn .play-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: rgba(255,255,255,0.95);
+  color: #059669;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.video-btn .video-arrow {
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: 2px;
+  transition: transform .3s ease;
+}
+.video-btn:hover .video-arrow { transform: translateX(3px); }
 
 /* Circular countdown */
 .countdown {
@@ -332,7 +426,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .cd-target {
   font-size: 11px;
   letter-spacing: 0.25em;
-  color: rgba(241,245,249,0.55);
+  color: rgba(236,253,245,0.80);
   text-transform: uppercase;
 }
 .cd-tick {
@@ -340,7 +434,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   margin-top: 18px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: rgba(241,245,249,0.6);
+  color: rgba(236,253,245,0.85);
 }
 .cd-tick span { display: flex; gap: 5px; }
 .cd-tick b { color: #bbf7d0; font-weight: 500; font-variant-numeric: tabular-nums; }
@@ -383,7 +477,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   display: flex; align-items: center; justify-content: center;
-  color: rgba(241,245,249,0.7);
+  color: rgba(236,253,245,0.92);
   transition: all .35s cubic-bezier(.2,.8,.2,1);
 }
 .socials a:hover {
@@ -401,7 +495,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   bottom: 28px; left: 50%; transform: translateX(-50%);
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; letter-spacing: 0.3em;
-  color: rgba(241,245,249,0.4);
+  color: rgba(236,253,245,0.65);
   display: flex; flex-direction: column; align-items: center; gap: 8px;
 }
 .scroll-hint .line {
@@ -441,7 +535,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .about-lead {
   font-size: clamp(16px, 1.4vw, 20px);
   line-height: 1.7;
-  color: rgba(241,245,249,0.75);
+  color: rgba(255,255,255,0.95);
   font-weight: 300;
   max-width: 640px;
 }
@@ -473,7 +567,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.25em;
-  color: rgba(241,245,249,0.5);
+  color: rgba(236,253,245,0.75);
   text-transform: uppercase;
   margin-top: 8px;
 }
@@ -491,7 +585,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.1);
   background: rgba(255,255,255,0.03);
-  color: rgba(241,245,249,0.8);
+  color: rgba(255,255,255,0.98);
   transition: all .3s ease;
 }
 .chip:hover {
@@ -562,23 +656,25 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .work-link:hover { gap: 14px; }
 .work-title {
   font-size: clamp(56px, 9vw, 144px);
-  font-weight: 800;
+  font-weight: 900;
   line-height: 0.9;
   letter-spacing: -0.045em;
   margin-bottom: 28px;
-  background: linear-gradient(180deg, #fff 0%, #fef3c7 50%, #fbbf24 100%);
+  background: linear-gradient(180deg, #fef3c7 0%, #fbbf24 50%, #f59e0b 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 6px 50px rgba(251,191,36,0.4));
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 6px 50px rgba(251,191,36,0.6)) drop-shadow(0 0 80px rgba(251,191,36,0.3));
   position: relative;
 }
 .work-desc {
   font-size: clamp(15px, 1.3vw, 18px);
   line-height: 1.7;
-  color: rgba(241,245,249,0.75);
+  color: #f0fdf4;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
   max-width: 760px;
-  font-weight: 300;
+  font-weight: 400;
   margin-bottom: 36px;
   position: relative;
 }
@@ -596,14 +692,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.25em;
-  color: rgba(241,245,249,0.5);
+  color: rgba(236,253,245,0.75);
   text-transform: uppercase;
   margin-bottom: 6px;
 }
 .work-meta dd {
   font-size: 15px;
   font-weight: 500;
-  color: #ecfdf5;
+  color: #f0fdf4;
 }
 .work-actions {
   display: flex; gap: 14px; flex-wrap: wrap;
@@ -619,7 +715,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   letter-spacing: 0.18em;
   text-transform: uppercase;
   border: 1px solid rgba(255,255,255,0.18);
-  color: #ecfdf5;
+  color: #f0fdf4;
   background: rgba(255,255,255,0.04);
   backdrop-filter: blur(10px);
   transition: all .35s cubic-bezier(.2,.8,.2,1);
@@ -698,7 +794,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.25em;
-  color: rgba(241,245,249,0.4);
+  color: rgba(236,253,245,0.65);
 }
 .proj-badge {
   display: inline-flex; align-items: center; gap: 6px;
@@ -725,12 +821,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .proj-desc {
   font-size: 14px;
   line-height: 1.65;
-  color: rgba(241,245,249,0.65);
+  color: rgba(236,253,245,0.85);
   font-weight: 300;
   margin-bottom: auto;
 }
 .proj.featured .proj-desc { font-size: 16px; max-width: 780px; }
-.proj-desc strong { color: #ecfdf5; font-weight: 500; }
+.proj-desc strong { color: #f0fdf4; font-weight: 500; }
 
 .proj-foot {
   display: flex; justify-content: space-between; align-items: center;
@@ -747,7 +843,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   padding: 4px 9px;
   border-radius: 4px;
   background: rgba(255,255,255,0.06);
-  color: rgba(241,245,249,0.75);
+  color: rgba(255,255,255,0.95);
   border: 1px solid rgba(255,255,255,0.06);
 }
 .proj-link {
@@ -821,7 +917,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   padding: 4px 10px;
   border-radius: 6px;
   background: rgba(255,255,255,0.04);
-  color: rgba(241,245,249,0.75);
+  color: rgba(255,255,255,0.95);
   border: 1px solid rgba(255,255,255,0.05);
 }
 
@@ -879,14 +975,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .edu-content .school {
   font-size: 14px;
-  color: rgba(241,245,249,0.6);
+  color: rgba(236,253,245,0.85);
   margin-bottom: 14px;
   font-weight: 300;
 }
 .edu-content .notes {
   font-size: 14px;
   line-height: 1.65;
-  color: rgba(241,245,249,0.65);
+  color: rgba(236,253,245,0.85);
   max-width: 640px;
   font-weight: 300;
 }
@@ -921,23 +1017,22 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .hire-title {
   font-size: clamp(56px, 10vw, 156px);
-  font-weight: 800;
+  font-weight: 900;
   line-height: 0.95;
   letter-spacing: -0.045em;
   margin-bottom: 36px;
-  background: linear-gradient(180deg, #ffffff 0%, #a5f3fc 50%, #6ee7b7 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 4px 40px rgba(110,231,183,0.4));
+  color: #ffffff;
+  text-shadow: 0 4px 40px rgba(110,231,183,0.5), 0 2px 12px rgba(0, 0, 0, 0.6), 0 0 80px rgba(110,231,183,0.3);
+  filter: drop-shadow(0 0 30px rgba(110,231,183,0.4));
 }
 .hire-sub {
   font-size: clamp(15px, 1.4vw, 19px);
   line-height: 1.7;
-  color: rgba(241,245,249,0.75);
+  color: #f0fdf4;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
   max-width: 700px;
   margin: 0 auto 56px;
-  font-weight: 300;
+  font-weight: 400;
 }
 .hire-sub strong { color: #a5f3fc; font-weight: 500; }
 
@@ -978,14 +1073,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   letter-spacing: 0.25em;
-  color: rgba(241,245,249,0.5);
+  color: rgba(236,253,245,0.75);
   text-transform: uppercase;
   margin-bottom: 4px;
 }
 .contact-value {
   font-size: 14px;
   font-weight: 500;
-  color: #ecfdf5;
+  color: #f0fdf4;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1017,7 +1112,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .visa-card p {
   font-size: 13px;
   line-height: 1.65;
-  color: rgba(241,245,249,0.7);
+  color: rgba(236,253,245,0.92);
   font-weight: 300;
 }
 .visa-card strong { color: #a5f3fc; font-weight: 500; }
@@ -1029,7 +1124,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: inline-flex; gap: 18px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
-  color: rgba(241,245,249,0.75);
+  color: rgba(255,255,255,0.95);
   padding: 14px 22px;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.08);
@@ -1052,7 +1147,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   align-items: center; justify-content: center;
-  color: #ecfdf5;
+  color: #f0fdf4;
 }
 .menu-toggle svg { width: 18px; height: 18px; }
 
@@ -1222,13 +1317,13 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 <!-- Dot Navigation -->
 <nav class="dotnav" aria-label="Sections">
-  <div class="item active" data-go="home"><span class="label">00 — Home</span><span class="dot"></span></div>
-  <div class="item" data-go="about"><span class="label">01 — About</span><span class="dot"></span></div>
-  <div class="item" data-go="work"><span class="label">02 — Work</span><span class="dot"></span></div>
-  <div class="item" data-go="projects"><span class="label">03 — Projects</span><span class="dot"></span></div>
-  <div class="item" data-go="skills"><span class="label">04 — Skills</span><span class="dot"></span></div>
-  <div class="item" data-go="edu"><span class="label">05 — Edu</span><span class="dot"></span></div>
-  <div class="item" data-go="hire"><span class="label">06 — Hire</span><span class="dot"></span></div>
+  <div class="item active" data-go="home"><span class="num">00</span><span class="label">Home</span><span class="dot"></span></div>
+  <div class="item" data-go="about"><span class="num">01</span><span class="label">About</span><span class="dot"></span></div>
+  <div class="item" data-go="work"><span class="num">02</span><span class="label">Work</span><span class="dot"></span></div>
+  <div class="item" data-go="projects"><span class="num">03</span><span class="label">Projects</span><span class="dot"></span></div>
+  <div class="item" data-go="skills"><span class="num">04</span><span class="label">Skills</span><span class="dot"></span></div>
+  <div class="item" data-go="edu"><span class="num">05</span><span class="label">Edu</span><span class="dot"></span></div>
+  <div class="item" data-go="hire"><span class="num">06</span><span class="label">Hire</span><span class="dot"></span></div>
 </nav>
 
 <!-- Sections container -->
@@ -1244,6 +1339,15 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
       <strong>Sole technical owner</strong> for Mixport — Auckland maritime &amp; logistics.<br/>
       Shipping production PHP, MySQL, Vue, Node &amp; Android. Open to work from <strong>Q3&nbsp;2026</strong>.
     </p>
+
+    <!-- Video intro CTA -->
+    <a class="video-btn" href="https://app.previewme.com/p/ur7lf6" target="_blank" rel="noopener">
+      <span class="play-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M8 5v14l11-7z"/></svg>
+      </span>
+      <span>Watch my 2-min intro</span>
+      <span class="video-arrow" aria-hidden="true">→</span>
+    </a>
 
     <!-- Circular countdown -->
     <div class="countdown" role="timer" aria-live="polite">
