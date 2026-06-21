@@ -57,7 +57,7 @@ html, body {
 body {
   background:
     linear-gradient(180deg, rgba(10, 20, 16, 0.55) 0%, rgba(13, 31, 23, 0.65) 100%),
-    url('assets/bg-canopy-aerial.jpg') center/cover no-repeat fixed,
+    url('assets/bg-forest.jpg') center/cover no-repeat fixed,
     linear-gradient(180deg, #0a1410 0%, #0d1f17 50%, #0a1410 100%);
   background-attachment: fixed;
   background-blend-mode: normal;
@@ -221,7 +221,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   padding-top: 80px;
   background:
     linear-gradient(180deg, rgba(10, 20, 16, 0.5) 0%, rgba(13, 31, 23, 0.6) 100%),
-    url('assets/bg-canopy-aerial.jpg') center/cover no-repeat;
+    url('assets/bg-forest.jpg') center/cover no-repeat;
 }
 #home::before {
   content: '';
@@ -1068,6 +1068,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 @media (max-width: 768px) {
   html, body { overflow: auto; }
   body { overflow-x: hidden; }
+  .section * { word-wrap: break-word; overflow-wrap: anywhere; }
   .logo { top: 18px; left: 20px; font-size: 12px; }
   .dotnav {
     top: auto; bottom: 18px; right: 50%;
@@ -1111,11 +1112,46 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 
 @media (max-width: 480px) {
-  .hero-title { font-size: 56px; }
-  .work-title { font-size: 48px; }
-  .hire-title { font-size: 52px; }
-  .section-title { font-size: 32px; }
-  .countdown { width: 280px; height: 280px; }
+  .hero-title { font-size: 44px; line-height: 0.95; }
+  .work-title { font-size: 36px; }
+  .hire-title { font-size: 38px; line-height: 1.05; }
+  .section-title { font-size: 28px; }
+  .countdown { width: 240px; height: 240px; }
+  .countdown-num { font-size: 60px; }
+  .section { padding: 90px 18px 110px; }
+  .work-card { padding: 28px 20px; }
+  .skill, .proj, .edu-row { word-break: break-word; overflow-wrap: anywhere; }
+  .hero-sub { font-size: 14px; padding: 0 6px; }
+  .hero-eyebrow { font-size: 10px; letter-spacing: 0.3em; }
+  .hire-cta-sub, .work-desc, .about-copy p { font-size: 14px; }
+  .hire-cta, .about-copy { padding: 0 4px; }
+  .contact-link { font-size: 14px; }
+  .work-meta { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .work-meta div { padding: 8px 0; }
+  .numbers div { padding: 14px 10px; }
+  .numbers .num { font-size: 32px; }
+  .ring-label { display: none; }
+  .countdown-label { font-size: 9px; letter-spacing: 0.2em; }
+  .countdown-sub { font-size: 9px; letter-spacing: 0.2em; }
+  .timeline { padding: 0 6px; }
+  .edu-row { grid-template-columns: 60px 1fr; gap: 16px; }
+  .edu-year { font-size: 11px; }
+  .edu-title { font-size: 14px; }
+  .hire-cta-title { font-size: 22px; }
+  .hire-cta-sub { font-size: 12px; line-height: 1.6; }
+  .hire-title { font-size: 36px; }
+  .social-icons { gap: 10px; }
+  .social-icons a { width: 36px; height: 36px; }
+  body { overflow-x: hidden; }
+}
+
+@media (max-width: 380px) {
+  .hero-title { font-size: 38px; }
+  .work-title, .hire-title { font-size: 30px; }
+  .section-title { font-size: 24px; }
+  .countdown { width: 200px; height: 200px; }
+  .countdown-num { font-size: 50px; }
+  .section { padding: 80px 14px 110px; }
 }
 
 /* Reveal on activate */
