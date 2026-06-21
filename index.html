@@ -1182,17 +1182,26 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     gap: 14px;
   }
   .dotnav .label { display: none; }
-  .section {
-    padding: 90px 24px 100px;
+  /* === SMOOTH SCROLL MODE: all sections visible, scroll-snap, no hard jump === */
+  .sections {
     position: relative;
-    min-height: auto;
+    height: auto;
+    overflow-y: visible;
+    scroll-snap-type: y proximity;
+    scroll-padding-top: 0px;
+  }
+  html { scroll-behavior: smooth; }
+  .section {
+    padding: 90px 18px 110px;
+    position: relative;
+    min-height: 100vh;
     height: auto;
     inset: auto;
     opacity: 1; visibility: visible; transform: none;
-    display: none;
+    display: flex;
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
   }
-  .section.active { display: flex; }
-  .sections { position: relative; height: auto; }
   body { min-height: 100vh; height: auto; }
   html { height: auto; }
   .scroll-hint { display: none; }
@@ -2168,9 +2177,6 @@ function goTo(idx, smooth = true) {
   history.replaceState(null, '', '#' + ORDER[idx]);
 }
 
-navItems.forEach((el, i) => {
-  el.addEventListener('click', () => goTo(i));
-});
 document.querySelectorAll('[data-go]').forEach(el => {
   el.addEventListener('click', (e) => {
     const t = el.getAttribute('data-go');
@@ -2220,8 +2226,92 @@ function syncFromHash() {
 window.addEventListener('hashchange', syncFromHash);
 if (location.hash) syncFromHash();
 
+/* ============================================================
+   SMOOTH SCROLL MODE (mobile-first, works on desktop too)
+   - Sections are scrollable, scroll-snap-y proximity
+   - IntersectionObserver updates active dot while scrolling
+   - Dot clicks use smooth scrollTo (no hard jump)
+   - Replaces the old "display: none / active class" jump behavior
+   ============================================================ */
+if (true) { // smooth scroll mode always
+  // Override goTo on mobile: smooth scroll instead of display toggle
+  const smoothGoTo = (idx) => {
+    if (idx < 0 || idx >= ORDER.length) return;
+    const target = document.getElementById(ORDER[idx]);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // update active dot immediately for UX feedback
+      navItems[current].classList.remove('active');
+      current = idx;
+      navItems[current].classList.add('active');
+      history.replaceState(null, '', '#' + ORDER[idx]);
+    }
+  };
+
+  // Make sections all visible on mobile (no display: none)
+  if (isMobile) {
+    document.querySelectorAll('.section').forEach(s => {
+      s.classList.add('active');  // force visible
+    });
+  }
+
+  // Dot clicks: use smoothGoTo on mobile
+  navItems.forEach((el, i) => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (isMobile) {
+        smoothGoTo(i);
+      } else {
+        goTo(i);
+      }
+    });
+  });
+
+  // Touch swipe: on mobile, the native scroll-snap handles section transitions
+  // Just need to disable the old touch-end handler that called goTo
+  // (we override below by removing old listener; old code only attached on isMobile=true at load)
+
+  // IntersectionObserver: detect which section is in view, update active dot
+  const sectionObserver = new IntersectionObserver((entries) => {
+    if (!isMobile) return;
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+        const id = entry.target.id;
+        const idx = ORDER.indexOf(id);
+        if (idx >= 0 && idx !== current) {
+          navItems[current].classList.remove('active');
+          current = idx;
+          navItems[current].classList.add('active');
+          history.replaceState(null, '', '#' + ORDER[idx]);
+        }
+      }
+    });
+  }, {
+    threshold: [0.4, 0.6],
+    rootMargin: '0px'
+  });
+
+  sections.forEach(s => sectionObserver.observe(s));
+
+  // Keyboard navigation on mobile too (some keyboards attached to phones)
+  window.addEventListener('keydown', (e) => {
+    if (isMobile) {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+        e.preventDefault();
+        smoothGoTo(Math.min(current + 1, ORDER.length - 1));
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        smoothGoTo(Math.max(current - 1, 0));
+      } else if (/^[0-6]$/.test(e.key)) {
+        smoothGoTo(parseInt(e.key, 10));
+      }
+    }
+  });
+}
+
 console.log('%c MZ. — portfolio v2 ', 'background:linear-gradient(135deg,#10b981,#6ee7b7);color:#fff;padding:6px 14px;border-radius:6px;font-weight:600');
-console.log('%c 7 sections · three.js · countdown to 2026-09-01 ', 'color:#86efac');
+console.log('%c 7 sections · smooth scroll-snap (mobile) · countdown to 2026-09-01 ', 'color:#86efac');
 </script>
 
 </body>
