@@ -56,9 +56,9 @@ html, body {
 
 body {
   background:
-    linear-gradient(180deg, rgba(10, 20, 16, 0.45) 0%, rgba(13, 31, 23, 0.55) 100%),
-    url('assets/bg-forest.jpg') center/cover no-repeat fixed,
-    linear-gradient(180deg, #0a1410 0%, #0d1f17 50%, #0a1410 100%);
+    linear-gradient(180deg, rgba(10, 10, 16, 0.55) 0%, rgba(20, 14, 28, 0.6) 100%),
+    url('assets/bg-gradient.jpg') center/cover no-repeat fixed,
+    linear-gradient(180deg, #14101a 0%, #1a1424 50%, #14101a 100%);
   background-attachment: fixed;
   background-blend-mode: normal;
 }
@@ -112,20 +112,21 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .dotnav {
   position: fixed;
   top: 50%;
-  right: 24px;
+  right: 16px;
   transform: translateY(-50%);
   z-index: 50;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 4px;
   align-items: stretch;
-  background: rgba(10, 20, 16, 0.55);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(134, 239, 172, 0.18);
-  border-radius: 14px;
-  padding: 10px 8px;
-  box-shadow: 0 20px 60px -10px rgba(0,0,0,0.4);
+  background: rgba(10, 10, 16, 0.5);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 6px 4px;
+  box-shadow: 0 12px 40px -8px rgba(0,0,0,0.4);
+  min-width: 36px;
 }
 .dotnav .item {
   display: flex; align-items: center; gap: 10px;
@@ -201,7 +202,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 100px 96px 80px;
+  padding: 100px 200px 80px 96px;
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px) scale(0.99);
@@ -246,14 +247,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   text-align: center;
   padding-top: 80px;
   background:
-    linear-gradient(180deg, rgba(10, 20, 16, 0.5) 0%, rgba(13, 31, 23, 0.6) 100%),
-    url('assets/bg-forest.jpg') center/cover no-repeat;
+    linear-gradient(180deg, rgba(10, 10, 16, 0.55) 0%, rgba(20, 14, 28, 0.65) 100%),
+    url('assets/bg-gradient.jpg') center/cover no-repeat;
 }
 #home::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 30%, rgba(10, 20, 16, 0.7) 100%);
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(10, 10, 16, 0.7) 100%);
   pointer-events: none;
 }
 .hero-eyebrow {
@@ -1315,15 +1316,15 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   <span>MING ZHAO</span>
 </a>
 
-<!-- Dot Navigation -->
+<!-- Dot Navigation (compact - labels appear as tooltip on hover) -->
 <nav class="dotnav" aria-label="Sections">
-  <div class="item active" data-go="home"><span class="num">00</span><span class="label">Home</span><span class="dot"></span></div>
-  <div class="item" data-go="about"><span class="num">01</span><span class="label">About</span><span class="dot"></span></div>
-  <div class="item" data-go="work"><span class="num">02</span><span class="label">Work</span><span class="dot"></span></div>
-  <div class="item" data-go="projects"><span class="num">03</span><span class="label">Projects</span><span class="dot"></span></div>
-  <div class="item" data-go="skills"><span class="num">04</span><span class="label">Skills</span><span class="dot"></span></div>
-  <div class="item" data-go="edu"><span class="num">05</span><span class="label">Edu</span><span class="dot"></span></div>
-  <div class="item" data-go="hire"><span class="num">06</span><span class="label">Hire</span><span class="dot"></span></div>
+  <div class="item active" data-go="home" data-label="00 — Home"><span class="dot"></span><span class="label">00 — Home</span></div>
+  <div class="item" data-go="about" data-label="01 — About"><span class="dot"></span><span class="label">01 — About</span></div>
+  <div class="item" data-go="work" data-label="02 — Work"><span class="dot"></span><span class="label">02 — Work</span></div>
+  <div class="item" data-go="projects" data-label="03 — Projects"><span class="dot"></span><span class="label">03 — Projects</span></div>
+  <div class="item" data-go="skills" data-label="04 — Skills"><span class="dot"></span><span class="label">04 — Skills</span></div>
+  <div class="item" data-go="edu" data-label="05 — Edu"><span class="dot"></span><span class="label">05 — Edu</span></div>
+  <div class="item" data-go="hire" data-label="06 — Hire"><span class="dot"></span><span class="label">06 — Hire</span></div>
 </nav>
 
 <!-- Sections container -->
