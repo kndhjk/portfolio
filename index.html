@@ -19,7 +19,7 @@
 <meta name="twitter:title" content="Ming Zhao — MZ." />
 <meta name="twitter:description" content="Sole technical owner for Mixport. MInfoTech @ UoA, Q3 2026." />
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2307071a'/%3E%3Ctext x='50' y='66' font-family='Inter,Arial' font-size='52' font-weight='800' fill='%23a78bfa' text-anchor='middle'%3EMZ%3C/text%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a1410'/%3E%3Ctext x='50' y='66' font-family='Inter,Arial' font-size='52' font-weight='800' fill='%234ade80' text-anchor='middle'%3EMZ%3C/text%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -56,12 +56,15 @@ html, body {
 }
 
 body {
+  /* Living green: deep emerald base + fresh leaf texture + soft mint glow */
   background:
-    linear-gradient(180deg, rgba(10, 10, 16, 0.55) 0%, rgba(20, 14, 28, 0.6) 100%),
-    url('assets/bg-gradient.jpg') center/cover no-repeat fixed,
-    linear-gradient(180deg, #14101a 0%, #1a1424 50%, #14101a 100%);
+    radial-gradient(ellipse 80% 60% at 30% 20%, rgba(74, 222, 128, 0.12), transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 80%, rgba(16, 185, 129, 0.10), transparent 65%),
+    linear-gradient(180deg, rgba(10, 20, 16, 0.35) 0%, rgba(13, 31, 23, 0.55) 100%),
+    url('assets/bg-leaves.jpg') center/cover no-repeat fixed,
+    linear-gradient(180deg, #0a1410 0%, #0d1f17 50%, #0a1410 100%);
   background-attachment: fixed;
-  background-blend-mode: normal;
+  background-blend-mode: normal, normal, normal, normal, normal;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -77,10 +80,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   pointer-events: none;
 }
 
-/* Subtle vignette */
+/* Subtle vignette — deep emerald edges, not purple */
 .vignette {
   position: fixed; inset: 0; z-index: 1; pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(10,20,16,0.65) 100%);
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(5, 18, 12, 0.55) 100%);
 }
 
 /* ============================================================
@@ -260,15 +263,20 @@ html { scroll-behavior: smooth; }
   align-items: center;
   text-align: center;
   padding-top: 80px;
+  /* Sunlit green canopy — vibrant living background */
   background:
-    linear-gradient(180deg, rgba(10, 10, 16, 0.55) 0%, rgba(20, 14, 28, 0.65) 100%),
-    url('assets/bg-gradient.jpg') center/cover no-repeat;
+    radial-gradient(ellipse 70% 50% at 50% 35%, rgba(74, 222, 128, 0.18), transparent 60%),
+    linear-gradient(180deg, rgba(10, 20, 16, 0.30) 0%, rgba(13, 31, 23, 0.55) 50%, rgba(10, 20, 16, 0.40) 100%),
+    url('assets/bg-canopy-aerial.jpg') center/cover no-repeat;
 }
 #home::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 30%, rgba(10, 10, 16, 0.7) 100%);
+  /* Mint glow at top center + darken edges to keep text readable */
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 20%, rgba(110, 231, 183, 0.12), transparent 65%),
+    radial-gradient(ellipse at center, transparent 35%, rgba(10, 20, 16, 0.65) 100%);
   pointer-events: none;
 }
 .hero-eyebrow {
@@ -292,11 +300,12 @@ html { scroll-behavior: smooth; }
   line-height: 0.92;
   letter-spacing: -0.04em;
   margin-bottom: 28px;
-  background: linear-gradient(180deg, #ffffff 0%, #bbf7d0 60%, #10b981 110%);
+  /* Living: bright lime top → soft mint mid → deep emerald base */
+  background: linear-gradient(180deg, #f0fdf4 0%, #4ade80 25%, #6ee7b7 55%, #10b981 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 4px 40px rgba(16,185,129,0.4));
+  filter: drop-shadow(0 4px 40px rgba(74, 222, 128, 0.5));
   animation: heroIn 1.2s cubic-bezier(.2,.8,.2,1) both;
 }
 @keyframes heroIn {
@@ -1970,12 +1979,14 @@ const positions = new Float32Array(particleCount * 3);
 const colors = new Float32Array(particleCount * 3);
 const sizes = new Float32Array(particleCount);
 const palette = [
-  new THREE.Color('#10b981'),
-  new THREE.Color('#86efac'),
-  new THREE.Color('#34d399'),
-  new THREE.Color('#6ee7b7'),
-  new THREE.Color('#fbbf24'),
-  new THREE.Color('#ffffff'),
+  new THREE.Color('#4ade80'),  // fresh lime — primary
+  new THREE.Color('#22c55e'),  // main green
+  new THREE.Color('#10b981'),  // emerald
+  new THREE.Color('#86efac'),  // pale mint
+  new THREE.Color('#34d399'),  // soft emerald
+  new THREE.Color('#6ee7b7'),  // mint
+  new THREE.Color('#fbbf24'),  // gold accent (Mixport highlight)
+  new THREE.Color('#ffffff'),  // white sparkle
 ];
 for (let i = 0; i < particleCount; i++) {
   const r = 80 + Math.random() * 220;
@@ -2035,9 +2046,9 @@ scene.add(particles);
 /* ---- Floating geometry ---- */
 const floats = [];
 const floatMats = [
-  new THREE.MeshBasicMaterial({ color: 0x7c3aed, wireframe: true, transparent: true, opacity: 0.18 }),
-  new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.15 }),
-  new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.12 }),
+  new THREE.MeshBasicMaterial({ color: 0x4ade80, wireframe: true, transparent: true, opacity: 0.18 }),
+  new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.15 }),
+  new THREE.MeshBasicMaterial({ color: 0x22c55e, wireframe: true, transparent: true, opacity: 0.12 }),
 ];
 const floatGeoms = [
   new THREE.IcosahedronGeometry(8, 1),

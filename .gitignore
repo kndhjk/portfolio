@@ -4,3 +4,7 @@ node_modules/
 .env
 .env.local
 index.html.bientot
+index.html.v3-backup
+index.html.*-backup
+assets/archived/
+preview/
