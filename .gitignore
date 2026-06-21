@@ -1,1 +1,6 @@
-index.html.bak
+.DS_Store
+node_modules/
+*.log
+.env
+.env.local
+index.html.bientot
