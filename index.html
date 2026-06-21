@@ -129,47 +129,50 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   min-width: 36px;
 }
 .dotnav .item {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 0;
   cursor: pointer;
-  padding: 8px 10px 8px 8px;
-  border-radius: 8px;
-  transition: all .35s cubic-bezier(.2,.8,.2,1);
-  min-width: 36px;
+  padding: 8px 6px;
+  border-radius: 6px;
+  transition: all .3s cubic-bezier(.2,.8,.2,1);
   position: relative;
+  justify-content: center;
 }
 .dotnav .item:hover { background: rgba(134,239,172,0.06); }
 .dotnav .item.active {
-  background: linear-gradient(90deg, rgba(16,185,129,0.18), rgba(16,185,129,0.04));
-  box-shadow: inset 3px 0 0 #10b981;
+  background: linear-gradient(90deg, rgba(16,185,129,0.25), rgba(16,185,129,0.05));
+  box-shadow: inset 2px 0 0 #10b981;
 }
 .dotnav .label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: rgba(236, 253, 245, 0.55);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #ecfdf5;
   text-transform: uppercase;
   white-space: nowrap;
-  font-weight: 500;
-  transition: all .3s ease;
-}
-.dotnav .num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: rgba(134, 239, 172, 0.6);
   font-weight: 600;
-  min-width: 18px;
-  text-align: center;
-  letter-spacing: 0.05em;
+  position: absolute;
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(10, 10, 16, 0.92);
+  border: 1px solid rgba(134, 239, 172, 0.25);
+  padding: 6px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s ease;
+  z-index: 60;
 }
-.dotnav .item.active .label { color: #f0fdf4; }
-.dotnav .item.active .num { color: #10b981; }
-.dotnav .item:hover .label { color: #d1fae5; }
-.dotnav .item:hover .num { color: #34d399; }
+.dotnav .num { display: none; }
+.dotnav .item:hover .label { opacity: 1; }
+
+.dotnav .num { display: none; }
+
 .dotnav .dot {
-  width: 6px; height: 6px;
+  width: 7px; height: 7px;
   border-radius: 50%;
-  background: rgba(134, 239, 172, 0.3);
-  transition: all .35s cubic-bezier(.2,.8,.2,1);
+  background: rgba(236, 253, 245, 0.4);
+  transition: all .3s cubic-bezier(.2,.8,.2,1);
   flex-shrink: 0;
 }
 .dotnav .item:hover .dot {
